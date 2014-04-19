@@ -7,16 +7,37 @@
 QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.9
+
+QMAKE_CXXFLAGS -= -O
+QMAKE_CXXFLAGS -= -O1
+QMAKE_CXXFLAGS -= -O2
+QMAKE_CXXFLAGS *= -O3
+# Otimiza para a plataforma intel i*
+QMAKE_CXXFLAGS += -march=corei7 -mtune=corei7
 
 TARGET = HMAX_Senna
 TEMPLATE = app
-
 
 SOURCES += main.cpp\
         mainwindow.cpp \
     HMax_Class/s1th.cpp
 
 HEADERS  += mainwindow.h \
-    HMax_Class/s1th.h
+    HMax_Class/s1th.h \
+    HMax_Class/baseStructs.h
 
 FORMS    += mainwindow.ui
+
+INCLUDEPATH += /usr/local/include/
+INCLUDEPATH += /usr/local/include/opencv2/
+INCLUDEPATH += /usr/local/include/opencv/
+DEPENDPATH += /usr/local/lib
+
+LIBS += -L/usr/local/lib -lopencv_core -lopencv_highgui -lopencv_imgproc -lopencv_features2d -lopencv_calib3d
+
+OTHER_FILES += \
+    imgs/lena.jpg
+
+RESOURCES += \
+    imgs.qrc

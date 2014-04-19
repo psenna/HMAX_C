@@ -2,6 +2,8 @@
 #define S1TH_H
 
 #include <QThread>
+#include <vector>
+#include "HMax_Class/baseStructs.h"
 
 class S1Th : public QThread
 {
@@ -12,6 +14,20 @@ public:
 signals:
 
 public slots:
+
+private:
+    std::vector<S1_T>* gaborFilterResult;
+    cv::Mat image;
+    std::vector<int>* sizes;
+    std::vector<double>* lambda;
+    std::vector<double>* sigma;
+    std::vector<double>* gama;
+    std::vector<double>* orientation;
+    std::vector<cv::Mat>* filters;
+
+
+    void run();
+
 
 };
 
