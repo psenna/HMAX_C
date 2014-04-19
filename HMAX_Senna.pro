@@ -13,8 +13,10 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    HMax_Class/s1th.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    HMax_Class/s1th.h
 
 FORMS    += mainwindow.ui
