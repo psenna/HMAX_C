@@ -1,3 +1,12 @@
+/**
+ * Executa a camada S1 do modelo HMAX
+ *
+ * Pedro Senna
+ * Ciências da computação
+ * Universidade Federal de Itajubá - UNIFEI
+ *
+ */
+
 #ifndef S1TH_H
 #define S1TH_H
 
@@ -27,7 +36,6 @@ private:
 
 
     void run();
-
 
 };
 

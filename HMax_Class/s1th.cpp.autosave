@@ -5,6 +5,11 @@ S1Th::S1Th(QObject *parent) :
 {
 }
 
+/**
+ * @brief S1Th::run
+ * 
+ * Os vetores Tamanho e orientaçao sempre devem ser enviados.
+ */
 void S1Th::run(){
     this->gaborFilterResult = new std::vector<S1_T>;
     // Caso os filtros tenham que ser criados.
