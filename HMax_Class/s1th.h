@@ -19,12 +19,9 @@ class S1Th : public QThread
     Q_OBJECT
 public:
     explicit S1Th(QObject *parent = 0);
+    explicit S1Th(cv::Mat image, std::vector<int>* sizes, std::vector<double>* lambda, std::vector<double>* sigma,
+                  std::vector<double>* gama, std::vector<double>* orientation, std::vector<cv::Mat>* filters, QObject *parent = 0);
 
-signals:
-
-public slots:
-
-private:
     std::vector<S1_T>* gaborFilterResult;
     cv::Mat image;
     std::vector<int>* sizes;
@@ -34,7 +31,7 @@ private:
     std::vector<double>* orientation;
     std::vector<cv::Mat>* filters;
 
-
+private:
     void run();
 
 };

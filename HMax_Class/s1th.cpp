@@ -5,10 +5,41 @@ S1Th::S1Th(QObject *parent) :
 {
 }
 
+/**
+ * @brief Deve seguir a regra de funcionamento do metodo run.
+ * @param parent
+ * @param image
+ * @param sizes
+ * @param lambda
+ * @param sigma
+ * @param gama
+ * @param orientation
+ * @param filters
+ */
+S1Th::S1Th(cv::Mat image, std::vector<int> *sizes, std::vector<double> *lambda, std::vector<double> *sigma,
+           std::vector<double> *gama, std::vector<double> *orientation, std::vector<cv::Mat> *filters, QObject *parent):
+    QThread(parent)
+{
+    this->image = image;
+    this->sizes = sizes;
+    this->lambda = lambda;
+    this->sigma = sigma;
+    this->gama = gama;
+    this->orientation = orientation;
+    this->filters = filters;
+}
+
+/**
+ * @brief S1Th::run
+ *
+ * Os vetores Tamanho e orientaçao sempre devem ser enviados, os outros parametros sao opicionais caso o
+ * vetor de filtros seja enviado e obrigatorios caso o de filtro seja NULL.
+ */
+//! @todo Verificar se o temanho dos vetores sao iguais e emite alerta em caso negativo.
 void S1Th::run(){
     this->gaborFilterResult = new std::vector<S1_T>;
     // Caso os filtros tenham que ser criados.
-    if(filters != NULL){
+    if(filters == NULL){
         int quantidade = orientation->size() * sizes->size();
         gaborFilterResult->resize(quantidade);
 
