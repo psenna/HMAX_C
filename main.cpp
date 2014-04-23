@@ -35,7 +35,10 @@ int main(int argc, char *argv[])
     gama.push_back(0.3);
 
     std::vector<double> orientacao;
-    orientacao.push_back(33 * PI / 180);
+    orientacao.push_back(0.0 * PI / 180.0);
+    orientacao.push_back(45.0 * PI / 180.0);
+    orientacao.push_back(90.0 * PI / 180.0);
+    orientacao.push_back(135.0 * PI / 180.0);
 
     S1Th s1(imagem, &tamanhos, &lambda, &sigma, &gama, &orientacao, NULL);
     s1.start();
@@ -44,9 +47,11 @@ int main(int argc, char *argv[])
     std::vector<S1_T>* resultados = s1.gaborFilterResult;
 
     for(int i = 0; i < (int)resultados->size(); i++){
-        cv::imshow("Tela", resultados->at(i).imgFiltrada);
-        std::cout << "S1 " <<  resultados->at(i).tamanho << "  " << resultados->at(i).orientation << "\n";
-        cv::waitKey(0);
+        for(int j = 0; j < nOrientacoes; j++){
+            cv::imshow("Tela", resultados->at(i).imgFiltrada[j]);
+            std::cout << "S1 " <<  resultados->at(i).tamanho << "  " << resultados->at(i).orientation[j] << "\n";
+            cv::waitKey(0);
+        }
     }
 
     return 0;

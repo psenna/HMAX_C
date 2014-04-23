@@ -22,12 +22,16 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     HMax_Class/s1th.cpp \
-    HMax_Class/c1th.cpp
+    HMax_Class/c1th.cpp \
+    HMax_Class/s2th.cpp \
+    HMax_Class/c2th.cpp
 
 HEADERS  += mainwindow.h \
     HMax_Class/s1th.h \
     HMax_Class/baseStructs.h \
-    HMax_Class/c1th.h
+    HMax_Class/c1th.h \
+    HMax_Class/s2th.h \
+    HMax_Class/c2th.h
 
 FORMS    += mainwindow.ui
 
