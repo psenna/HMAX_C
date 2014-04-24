@@ -20,30 +20,38 @@ void C1th::run(){
     std::vector<int>::iterator tam = tamanho->begin();
     std::vector<int>::iterator over = overlap->begin();
     std::vector<S1_T>::iterator imgS1 = imagensS1->begin();
+    std::vector<S1_T>::iterator imgS1_2 = imagensS1->begin();
+    imgS1_2++;
 
     for(std::vector<C1_T>::iterator it = resultado->begin(); it != resultado->end(); ++it){
-        cv::Mat aux  = imgS1->imgFiltrada[0];
-        imgS1++;
-        cv::Mat aux2 = imgS1->imgFiltrada[0];
-
-        // Encontra o máximo ponto a ponto entre as duas imagens da faixa
-        it->imgMaxBand[0] = cv::max(aux, aux2);
         it->tamanho = *tam;
         it->overlap = *over;
-        it->orientation[0] = imgS1->orientation[0];
+        std::cout << nOrientacoes << "\n";
+        for(int i = 0; i < nOrientacoes; i++){
+            std::cout << i << "\n";
+            cv::Mat aux  = imgS1->imgFiltrada[i];
+            cv::Mat aux2 = imgS1_2->imgFiltrada[i];
 
-        // Utiliza a opeação Dilatação
-        aux = it->imgMaxBand[0];
-        cv::Mat element = cv::getStructuringElement( cv::MORPH_RECT,
-                                           cv::Size( *tam, *tam ),
-                                           cv::Point( floor(*tam/2), floor(*tam/2)) );
-        cv::dilate( aux, it->imgMaxBand[0], element);
+            // Encontra o máximo ponto a ponto entre as duas imagens da faixa
+            it->imgMaxBand[i] = cv::max(aux, aux2);
+            it->orientation[i] = imgS1->orientation[i];
 
-        //! @todo Realizar a amostragem
+            // Utiliza a opeação Dilatação
+            aux = it->imgMaxBand[i];
+            cv::Mat element = cv::getStructuringElement( cv::MORPH_RECT,
+                                                         cv::Size( *tam, *tam ),
+                                                         cv::Point( floor(*tam/2), floor(*tam/2)));
+            cv::dilate(aux, aux2, element);
+
+            // Amostragem dos pontos
+            int rows = (aux.rows / *over);
+            int coluns = (aux.cols / *over);
+            cv::resize(aux, it->imgMaxBand[i], cv::Size(coluns, rows), 0, 0, cv::INTER_NEAREST);
+        }
         imgS1++;
+        imgS1_2++;
         tam++;
         over++;
         tam++;
-      }
-
+    }
 }

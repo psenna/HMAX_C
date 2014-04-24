@@ -50,13 +50,12 @@ void S1Th::run(){
         std::vector<S1_T>::iterator result = gaborFilterResult->begin();
         std::vector<int>::iterator tamanho = sizes->begin();
 
-        for(int i = 0; i < sizes->size(); i++){
+        for(int i = 0; i < (int)sizes->size(); i++){
             std::vector<double>::iterator orient = orientation->begin();
             std::vector<double>::iterator lamb = lambda->begin();
             std::vector<double>::iterator sig = sigma->begin();
             std::vector<double>::iterator gam = gama->begin();
-
-            for(int j = 0; j < orientation->size(); j++){
+            for(int j = 0; j < (int)orientation->size(); j++){
                 *filter = cv::getGaborKernel(cv::Size(*tamanho, *tamanho), *sig, *orient, *lamb, *gam, 0, CV_64F);
                 result->tamanho = *tamanho;
                 result->orientation[j] = *orient;
@@ -80,9 +79,9 @@ void S1Th::run(){
         std::vector<S1_T>::iterator result = gaborFilterResult->begin();
         std::vector<int>::iterator tamanho = sizes->begin();
 
-        for(int i = 0; i < sizes->size(); i++){
+        for(int i = 0; i < (int)sizes->size(); i++){
             std::vector<double>::iterator orient = orientation->begin();
-            for(int j = 0; j < orientation->size(); j++){
+            for(int j = 0; j < (int)orientation->size(); j++){
                 result->tamanho = *tamanho;
                 result->orientation[j] = *orient;
 
