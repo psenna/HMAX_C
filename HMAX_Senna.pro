@@ -24,14 +24,16 @@ SOURCES += main.cpp\
     HMax_Class/s1th.cpp \
     HMax_Class/c1th.cpp \
     HMax_Class/s2th.cpp \
-    HMax_Class/c2th.cpp
+    HMax_Class/c2th.cpp \
+    HMax_Class/c1pathdiccreator.cpp
 
 HEADERS  += mainwindow.h \
     HMax_Class/s1th.h \
     HMax_Class/baseStructs.h \
     HMax_Class/c1th.h \
     HMax_Class/s2th.h \
-    HMax_Class/c2th.h
+    HMax_Class/c2th.h \
+    HMax_Class/c1pathdiccreator.h
 
 FORMS    += mainwindow.ui
 
@@ -42,8 +44,7 @@ DEPENDPATH += /usr/local/lib
 
 LIBS += -L/usr/local/lib -lopencv_core -lopencv_highgui -lopencv_imgproc -lopencv_features2d -lopencv_calib3d
 
-OTHER_FILES += \
-    imgs/lena.jpg
+OTHER_FILES +=
 
 RESOURCES += \
     imgs.qrc

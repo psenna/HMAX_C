@@ -26,9 +26,7 @@ void C1th::run(){
     for(std::vector<C1_T>::iterator it = resultado->begin(); it != resultado->end(); ++it){
         it->tamanho = *tam;
         it->overlap = *over;
-        std::cout << nOrientacoes << "\n";
         for(int i = 0; i < nOrientacoes; i++){
-            std::cout << i << "\n";
             cv::Mat aux  = imgS1->imgFiltrada[i];
             cv::Mat aux2 = imgS1_2->imgFiltrada[i];
 
