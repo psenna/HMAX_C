@@ -32,4 +32,5 @@ struct S2_T{
     patchC1 patch;
 };
 
+
 #endif // BASESTRUCTS_H
