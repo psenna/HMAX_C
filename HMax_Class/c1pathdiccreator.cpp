@@ -16,7 +16,7 @@ C1pathDicCreator::C1pathDicCreator(QObject *parent) :
  * @param parent
  */
 C1pathDicCreator::C1pathDicCreator(std::vector<C1_T> *imagensParaAmostra, std::vector<int> *tamanhos,
-                                   std::vector<int> *nAmostras, QObject *parent)
+                                   std::vector<int> *nAmostras, QObject *parent): QThread(parent)
 {
     this->imagensParaAmostra = imagensParaAmostra;
     this->tamanhos = tamanhos;
@@ -32,11 +32,12 @@ void C1pathDicCreator::run(){
 // http://docs.opencv.org/modules/core/doc/xml_yaml_persistence.html
 // Pode resolver com menos trabalho!
 void C1pathDicCreator::salvaPatchesArquivo(QString file){
+    file.at(0);
     if(this->patchs != NULL){
 
     }
 }
 
 void C1pathDicCreator::loadPatchs(QString file){
-
+    file.at(0);
 }
