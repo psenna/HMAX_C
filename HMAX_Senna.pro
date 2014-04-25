@@ -44,7 +44,9 @@ DEPENDPATH += /usr/local/lib
 
 LIBS += -L/usr/local/lib -lopencv_core -lopencv_highgui -lopencv_imgproc -lopencv_features2d -lopencv_calib3d
 
-OTHER_FILES +=
+OTHER_FILES += \
+    LICENSE.txt \
+    GLP.txt
 
 RESOURCES += \
     imgs.qrc
