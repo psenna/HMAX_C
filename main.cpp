@@ -2,6 +2,7 @@
 #include <QApplication>
 #include "HMax_Class/s1th.h"
 #include "HMax_Class/c1th.h"
+#include "HMax_Class/c1pathdiccreator.h"
 
 int main(int argc, char *argv[])
 {
@@ -67,21 +68,25 @@ int main(int argc, char *argv[])
     c1.wait();
 
     std::vector<C1_T>* resultadosC1 = c1.resultado;
+    std::vector<patchC1>* pat = new std::vector<patchC1>;
+    pat->resize(resultadosC1->size());
+    std::vector<patchC1>::iterator itPat = pat->begin();
 
     for(std::vector<C1_T>::iterator it = resultadosC1->begin(); it != resultadosC1->end(); it++){
         for(int i = 0; i < nOrientacoes; i++){
-            // Apresenta a imagem em escala de cinza
-            double min;
-            double max;
-            cv::minMaxIdx(it->imgMaxBand[i], &min, &max);
-            cv::Mat adjMap;
-            it->imgMaxBand[i].convertTo(adjMap,CV_8UC1,255 / (max-min), -min);
-            cv::imshow("Tela", adjMap);
+            itPat->patch[i] = it->imgMaxBand[i];
+            cv::imshow("Tela", it->imgMaxBand[i]);
             std::cout << "C1 " << it->tamanho << "  " << it->imgMaxBand[i].size() << "\n";
             cv::waitKey(0);
-
         }
+        itPat++;
     }
 
+    C1pathDicCreator c1pat;
+    c1pat.setPatchs(pat);
+    c1pat.salvaPatchesArquivo(QString("teste.yml"));
+    delete(resultados);
+    delete(resultadosC1);
+    delete(pat);
     return 0;
 }

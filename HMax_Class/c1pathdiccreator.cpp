@@ -28,16 +28,45 @@ void C1pathDicCreator::run(){
 
 }
 
-
-// http://docs.opencv.org/modules/core/doc/xml_yaml_persistence.html
-// Pode resolver com menos trabalho!
 void C1pathDicCreator::salvaPatchesArquivo(QString file){
-    file.at(0);
+    cv::FileStorage fs(file.toUtf8().data(), cv::FileStorage::WRITE);
     if(this->patchs != NULL){
-
+        fs << "nPatchs" << (int) this->patchs->size();
+        fs << "nOrients" << (int) nOrientacoes;
+        int i = 0;
+        QString str;
+        for(std::vector<patchC1>::iterator it = this->patchs->begin(); it != this->patchs->end(); ++it){
+            for(int j = 0; j < nOrientacoes; j++){
+                str = QString().sprintf("img_%d_orient_%d",i, j);
+                fs << str.toUtf8().data() << ((cv::Mat)it->patch[j]);
+            }
+            i++;
+        }
     }
+    fs.release();
 }
 
 void C1pathDicCreator::loadPatchs(QString file){
-    file.at(0);
+    cv::FileStorage fs(file.toUtf8().data(), cv::FileStorage::READ);
+    int nPatchs = (int)fs["nPatchs"];
+    int nOrients = (int)fs["nOrients"];
+    if(nOrients == nOrientacoes){
+        QString str;
+        delete(this->patchs);
+        this->patchs = new std::vector<patchC1>;
+        this->patchs->resize(nPatchs);
+        int i = 0;
+        for(std::vector<patchC1>::iterator it = this->patchs->begin(); it != this->patchs->end(); ++it){
+            for(int j = 0; j < nOrientacoes; j++){
+                str = QString().sprintf("img_%d_orient_%d",i, j);
+                fs[str.toUtf8().data()]  >> it->patch[j];
+            }
+            i++;
+        }
+    }
+    fs.release();
+}
+
+void C1pathDicCreator::setPatchs(std::vector<patchC1> *pats){
+    this->patchs = pats;
 }
