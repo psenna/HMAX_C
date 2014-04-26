@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
     orientacao.push_back(0.0 * PI / 180.0);
     orientacao.push_back(45.0 * PI / 180.0);
     orientacao.push_back(90.0 * PI / 180.0);
-    orientacao.push_back(135.0 * PI / 180.0);
+    orientacao.push_back(135 * PI / 180.0);
 
     S1Th s1(imagem, &tamanhos, &lambda, &sigma, &gama, &orientacao, NULL);
     s1.start();
@@ -50,7 +50,9 @@ int main(int argc, char *argv[])
 
     for(int i = 0; i < (int)resultados->size(); i++){
         for(int j = 0; j < nOrientacoes; j++){
-            cv::imshow("Tela", resultados->at(i).imgFiltrada[j]);
+            cv::Mat out;
+            cv::convertScaleAbs(resultados->at(i).imgFiltrada[j], out);
+            cv::imshow("Tela", out);
             std::cout << "S1 " <<  resultados->at(i).tamanho << "  " << resultados->at(i).orientation[j] << "  " << resultados->at(i).imgFiltrada[j].size() << "\n";
             cv::waitKey(0);
         }
@@ -74,17 +76,15 @@ int main(int argc, char *argv[])
 
     for(std::vector<C1_T>::iterator it = resultadosC1->begin(); it != resultadosC1->end(); it++){
         for(int i = 0; i < nOrientacoes; i++){
-            itPat->patch[i] = it->imgMaxBand[i];
-            cv::imshow("Tela", it->imgMaxBand[i]);
+            cv::Mat out;
+            cv::convertScaleAbs(it->imgMaxBand[i], out);
+            cv::imshow("Tela", out);
             std::cout << "C1 " << it->tamanho << "  " << it->imgMaxBand[i].size() << "\n";
             cv::waitKey(0);
         }
         itPat++;
     }
 
-    C1pathDicCreator c1pat;
-    c1pat.setPatchs(pat);
-    c1pat.salvaPatchesArquivo(QString("teste.yml"));
     delete(resultados);
     delete(resultadosC1);
     delete(pat);

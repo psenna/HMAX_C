@@ -49,25 +49,26 @@ void S1Th::run(){
         std::vector<cv::Mat>::iterator filter = filters->begin();
         std::vector<S1_T>::iterator result = gaborFilterResult->begin();
         std::vector<int>::iterator tamanho = sizes->begin();
+        std::vector<double>::iterator lamb = lambda->begin();
+        std::vector<double>::iterator sig = sigma->begin();
+        std::vector<double>::iterator gam = gama->begin();
 
         for(int i = 0; i < (int)sizes->size(); i++){
             std::vector<double>::iterator orient = orientation->begin();
-            std::vector<double>::iterator lamb = lambda->begin();
-            std::vector<double>::iterator sig = sigma->begin();
-            std::vector<double>::iterator gam = gama->begin();
+
             for(int j = 0; j < (int)orientation->size(); j++){
                 *filter = cv::getGaborKernel(cv::Size(*tamanho, *tamanho), *sig, *orient, *lamb, *gam, 0, CV_64F);
                 result->tamanho = *tamanho;
                 result->orientation[j] = *orient;
-
+                std::cout << j << " ori:" << *orient << " sig:" << *sig << " Lamb:" << *lamb << " gam:" << *gam <<"\n";
                 cv::filter2D(image, result->imgFiltrada[j], CV_64F, *filter);
 
                 filter++;
                 orient++;
-                lamb++;
-                sig++;
-                gam++;
             }
+            lamb++;
+            sig++;
+            gam++;
             tamanho++;
             result++;
         }
