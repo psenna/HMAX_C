@@ -1,2 +1,2 @@
-HMAX_C_SENNA
+HMAX_C
 ============
