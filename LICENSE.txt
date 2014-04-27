@@ -1,4 +1,4 @@
-    HMAX C - Implementação do modelo HMAX baseado em serre e lowe.
+    HMAX C - Implementação do modelo HMAX baseado em serre e Jim Mutch and David G. Lowe.
     Copyright (C) 2014  Pedro Senna
 
     This program is free software: you can redistribute it and/or modify
