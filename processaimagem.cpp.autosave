@@ -1,6 +1,0 @@
-#include "processaimagem.h"
-
-ProcessaImagem::ProcessaImagem(QObject *parent) :
-    QThread(parent)
-{
-}
