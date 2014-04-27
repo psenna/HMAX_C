@@ -3,6 +3,7 @@
 #include "HMax_Class/s1th.h"
 #include "HMax_Class/c1th.h"
 #include "HMax_Class/c1pathdiccreator.h"
+#include "HMax_Class/c2th.h"
 
 int main(int argc, char *argv[])
 {
@@ -16,8 +17,8 @@ int main(int argc, char *argv[])
     cv::Mat imagem = cv::imread("lena.jpg");
     cvtColor(imagem, imagem, CV_BGR2GRAY);
 
-    cv::imshow("Tela", imagem);
-    cv::waitKey(0);
+    //cv::imshow("Tela", imagem);
+    //cv::waitKey(0);
 
     //parametros
     std::vector<int>   tamanhos;
@@ -47,7 +48,7 @@ int main(int argc, char *argv[])
     s1.wait();
 
     std::vector<S1_T>* resultados = s1.gaborFilterResult;
-
+    /*
     for(int i = 0; i < (int)resultados->size(); i++){
         for(int j = 0; j < nOrientacoes; j++){
             cv::Mat out;
@@ -56,7 +57,7 @@ int main(int argc, char *argv[])
             std::cout << "S1 " <<  resultados->at(i).tamanho << "  " << resultados->at(i).orientation[j] << "  " << resultados->at(i).imgFiltrada[j].size() << "\n";
             cv::waitKey(0);
         }
-    }
+    }*/
 
     std::vector<int> tamanhoC1;
     tamanhoC1.push_back(8);
@@ -70,7 +71,7 @@ int main(int argc, char *argv[])
     c1.wait();
 
     std::vector<C1_T>* resultadosC1 = c1.resultado;
-
+    /*
     for(std::vector<C1_T>::iterator it = resultadosC1->begin(); it != resultadosC1->end(); it++){
         for(int i = 0; i < nOrientacoes; i++){
             cv::Mat out;
@@ -79,8 +80,7 @@ int main(int argc, char *argv[])
             std::cout << "C1 " << it->tamanho << "  " << it->imgMaxBand[i].size() << "\n";
             cv::waitKey(0);
         }
-    }
-    std::cout << "Aqui trava/n";
+    }*/
     std::vector<int>   tamanhosPats;
     tamanhosPats.push_back(4);
     tamanhosPats.push_back(8);
@@ -92,8 +92,13 @@ int main(int argc, char *argv[])
     C1pathDicCreator c1pc(resultadosC1, &tamanhosPats, &nAmost, false);
     c1pc.start();
     c1pc.wait();
-    c1pc.salvaPatchesArquivo("pats.yml");
+    //c1pc.salvaPatchesArquivo("pats.yml");
+    std::vector<patchC1>* respostaPatC1 = c1pc.getPatchs();
+    C2th c2(respostaPatC1, resultadosC1, 1, (tamMenorPat/4)*(tamMenorPat/4));
+    c2.start();
+    c2.wait();
 
+    delete(respostaPatC1);
     delete(resultados);
     delete(resultadosC1);
     return 0;

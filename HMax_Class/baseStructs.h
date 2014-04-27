@@ -19,6 +19,7 @@
 
 #define PI 3.1415926536
 #define nOrientacoes 4
+#define tamMenorPat 4
 
 
 struct S1_T{

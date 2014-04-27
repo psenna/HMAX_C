@@ -4,3 +4,48 @@ C2th::C2th(QObject *parent) :
     QThread(parent)
 {
 }
+
+C2th::C2th(std::vector<patchC1> *patchs, std::vector<C1_T> *C1output, double sigma, double alpha, QObject *parent){
+    this->patchs = patchs;
+    this->C1output = C1output;
+    this->alpha = alpha;
+    this->sigma = sigma;
+    this->estimulos = NULL;
+}
+
+void C2th::run(){
+    this->estimulos = new std::vector<double>;
+    this->estimulos->resize(patchs->size());
+    for(std::vector<double>::iterator i = estimulos->begin(); i != estimulos->end(); ++i)
+        *i = -DBL_MAX;
+
+    std::vector<double>::iterator est = estimulos->begin();
+    cv::Mat aux;
+    double auxEsp;
+
+    for(std::vector<patchC1>::iterator i = patchs->begin(); i != patchs->end(); ++i){
+        for(std::vector<C1_T>::iterator j = C1output->begin(); j != C1output->end(); ++j){
+            int tamanhox = j->imgMaxBand[0].rows - i->patch[0].rows;
+            int tamanhoy = j->imgMaxBand[0].cols - i->patch[0].cols;
+            int deslocx = i->patch[0].rows;
+            int deslocy = i->patch[0].cols;
+
+            for(int k = 0; k < tamanhoy; k++){
+                for(int l = 0; l < tamanhox; l++){
+                    auxEsp = 0;
+                    for(int m = 0; m < nOrientacoes; m++){
+                        cv::Rect roi(l, k, deslocx, deslocy);
+                        cv::Mat crop(j->imgMaxBand[m], roi);
+                        cv::absdiff(crop, i->patch[m], aux);
+                        cv::Scalar soma = cv::sum(aux);
+                        auxEsp += soma[0];
+                    }
+                    auxEsp = exp(-(auxEsp*auxEsp)/(2*sigma*sigma*alpha));
+                    if(auxEsp > *est)
+                        *est = auxEsp;
+                }
+            }
+        }
+        est++;
+    }
+}

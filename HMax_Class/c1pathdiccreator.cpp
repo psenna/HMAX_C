@@ -50,7 +50,6 @@ void C1pathDicCreator::run(){
                     int col = j->imgMaxBand[0].cols;
                     int x = fabs((int)rand() % (col - ((*i)+1)));
                     int y = fabs((int)rand() % (rows - ((*i)+1)));
-                    std::cout << "x:" << x << " y:" << y << j->imgMaxBand[0].size() << "\n";
                     // Percorre as orientaçoes
                     for(int l = 0; l < nOrientacoes; l++){
                         cv::Rect roi(x, y, *i, *i);
@@ -107,4 +106,8 @@ void C1pathDicCreator::loadPatchs(QString file){
 
 void C1pathDicCreator::setPatchs(std::vector<patchC1> *pats){
     this->patchs = pats;
+}
+
+std::vector<patchC1>* C1pathDicCreator::getPatchs(){
+    return this->patchs;
 }

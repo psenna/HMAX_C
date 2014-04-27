@@ -23,17 +23,17 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     HMax_Class/s1th.cpp \
     HMax_Class/c1th.cpp \
-    HMax_Class/s2th.cpp \
     HMax_Class/c2th.cpp \
-    HMax_Class/c1pathdiccreator.cpp
+    HMax_Class/c1pathdiccreator.cpp \
+    processaimagem.cpp
 
 HEADERS  += mainwindow.h \
     HMax_Class/s1th.h \
     HMax_Class/baseStructs.h \
     HMax_Class/c1th.h \
-    HMax_Class/s2th.h \
     HMax_Class/c2th.h \
-    HMax_Class/c1pathdiccreator.h
+    HMax_Class/c1pathdiccreator.h \
+    processaimagem.h
 
 FORMS    += mainwindow.ui
 
