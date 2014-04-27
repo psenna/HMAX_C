@@ -8,25 +8,63 @@ C1pathDicCreator::C1pathDicCreator(QObject *parent) :
 /**
  * @brief C1pathDicCreator::C1pathDicCreator
  * @param imagensParaAmostra
- * Imagens usadas para extrair as amostras.
  * @param tamanhos
- * Tamanho do lado dos quadrados das amostras.
  * @param nAmostras
- * Quantidade de amostras para cada tamanho.
+ * @param clusterizacao Quando verdadeiro, retira uma amostragem maior e cria o vocabulario usando o centro encontrados pelo kmeans como patchs
  * @param parent
  */
 C1pathDicCreator::C1pathDicCreator(std::vector<C1_T> *imagensParaAmostra, std::vector<int> *tamanhos,
-                                   std::vector<int> *nAmostras, QObject *parent): QThread(parent)
+                                   std::vector<int> *nAmostras, bool clusterizacao, QObject *parent): QThread(parent)
 {
     this->imagensParaAmostra = imagensParaAmostra;
     this->tamanhos = tamanhos;
     this->nAmostras = nAmostras;
     this->patchs = NULL;
+    clusterizar = clusterizacao;
 }
 
+/**
+ * @brief C1pathDicCreator::run
+ *
+ * Realiza a amostragem de patch da camada C1.
+ */
 void C1pathDicCreator::run(){
+    if(clusterizar){
+        /// @todo Implementar
+    } else {
+        int numTotalPats = 0;
+        for(std::vector<int>::iterator it = nAmostras->begin(); it != nAmostras->end(); ++it)
+            numTotalPats += *it;
 
+        delete(patchs);
+        patchs = new std::vector<patchC1>;
+        patchs->resize(numTotalPats);
+        std::vector<patchC1>::iterator pat = patchs->begin();
+        std::vector<int>::iterator nAms = nAmostras->begin();
+
+        for(std::vector<int>::iterator i = tamanhos->begin();  i != tamanhos->end(); ++i){
+            int nPatPorIMG = *nAms/imagensParaAmostra->size();
+            for(std::vector<C1_T>::iterator j = imagensParaAmostra->begin(); j != imagensParaAmostra->end(); ++j){
+                for(int k = 0; k < nPatPorIMG; k++){
+                    int rows = j->imgMaxBand[0].rows;
+                    int col = j->imgMaxBand[0].cols;
+                    int x = fabs((int)rand() % (col - ((*i)+1)));
+                    int y = fabs((int)rand() % (rows - ((*i)+1)));
+                    std::cout << "x:" << x << " y:" << y << j->imgMaxBand[0].size() << "\n";
+                    // Percorre as orientaçoes
+                    for(int l = 0; l < nOrientacoes; l++){
+                        cv::Rect roi(x, y, *i, *i);
+                        cv::Mat crop(j->imgMaxBand[l], roi);
+                        pat->patch[l] = crop.clone();
+                    }
+                    pat++;
+                }
+            }
+            nAms++;
+        }
+    }
 }
+
 
 void C1pathDicCreator::salvaPatchesArquivo(QString file){
     cv::FileStorage fs(file.toUtf8().data(), cv::FileStorage::WRITE);

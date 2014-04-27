@@ -60,7 +60,6 @@ void S1Th::run(){
                 *filter = cv::getGaborKernel(cv::Size(*tamanho, *tamanho), *sig, *orient, *lamb, *gam, 0, CV_64F);
                 result->tamanho = *tamanho;
                 result->orientation[j] = *orient;
-                std::cout << j << " ori:" << *orient << " sig:" << *sig << " Lamb:" << *lamb << " gam:" << *gam <<"\n";
                 cv::filter2D(image, result->imgFiltrada[j], CV_64F, *filter);
 
                 filter++;

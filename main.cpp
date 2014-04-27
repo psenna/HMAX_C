@@ -70,9 +70,6 @@ int main(int argc, char *argv[])
     c1.wait();
 
     std::vector<C1_T>* resultadosC1 = c1.resultado;
-    std::vector<patchC1>* pat = new std::vector<patchC1>;
-    pat->resize(resultadosC1->size());
-    std::vector<patchC1>::iterator itPat = pat->begin();
 
     for(std::vector<C1_T>::iterator it = resultadosC1->begin(); it != resultadosC1->end(); it++){
         for(int i = 0; i < nOrientacoes; i++){
@@ -82,11 +79,22 @@ int main(int argc, char *argv[])
             std::cout << "C1 " << it->tamanho << "  " << it->imgMaxBand[i].size() << "\n";
             cv::waitKey(0);
         }
-        itPat++;
     }
+    std::cout << "Aqui trava/n";
+    std::vector<int>   tamanhosPats;
+    tamanhosPats.push_back(4);
+    tamanhosPats.push_back(8);
+
+    std::vector<int> nAmost;
+    nAmost.push_back(2);
+    nAmost.push_back(4);
+
+    C1pathDicCreator c1pc(resultadosC1, &tamanhosPats, &nAmost, false);
+    c1pc.start();
+    c1pc.wait();
+    c1pc.salvaPatchesArquivo("pats.yml");
 
     delete(resultados);
     delete(resultadosC1);
-    delete(pat);
     return 0;
 }

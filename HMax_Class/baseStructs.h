@@ -1,7 +1,18 @@
+/**
+ * Estruturas usadas na comunicaçao entre as camadas
+ * do programa.
+ *
+ * Pedro Senna
+ * Ciências da computação
+ * Universidade Federal de Itajubá - UNIFEI
+ *
+ */
+
 #ifndef BASESTRUCTS_H
 #define BASESTRUCTS_H
 
 #include <vector>
+#include <stdlib.h>
 #include <opencv2/opencv.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/highgui/highgui.hpp>
