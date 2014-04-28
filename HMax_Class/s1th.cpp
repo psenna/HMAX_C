@@ -55,7 +55,6 @@ void S1Th::run(){
 
         for(int i = 0; i < (int)sizes->size(); i++){
             std::vector<double>::iterator orient = orientation->begin();
-
             for(int j = 0; j < (int)orientation->size(); j++){
                 *filter = cv::getGaborKernel(cv::Size(*tamanho, *tamanho), *sig, *orient, *lamb, *gam, 0, CV_64F);
                 result->tamanho = *tamanho;

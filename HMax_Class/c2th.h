@@ -22,13 +22,13 @@ public:
     explicit C2th(std::vector<patchC1> *patchs, std::vector<C1_T> *C1output, double sigma,
                   double alpha,QObject *parent = 0);
 
+    std::vector<double> *estimulos;
+
 private:
     std::vector<patchC1> *patchs;
     std::vector<C1_T>    *C1output;
     double sigma;
     double alpha;
-
-    std::vector<double> *estimulos;
 
     void run();
 

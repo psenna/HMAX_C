@@ -41,20 +41,20 @@ void C1pathDicCreator::run(){
         patchs->resize(numTotalPats);
         std::vector<patchC1>::iterator pat = patchs->begin();
         std::vector<int>::iterator nAms = nAmostras->begin();
-
         for(std::vector<int>::iterator i = tamanhos->begin();  i != tamanhos->end(); ++i){
-            int nPatPorIMG = *nAms/imagensParaAmostra->size();
+            int nPatPorIMG = (int)(*nAms/imagensParaAmostra->size());
             for(std::vector<C1_T>::iterator j = imagensParaAmostra->begin(); j != imagensParaAmostra->end(); ++j){
                 for(int k = 0; k < nPatPorIMG; k++){
                     int rows = j->imgMaxBand[0].rows;
                     int col = j->imgMaxBand[0].cols;
                     int x = fabs((int)rand() % (col - ((*i)+1)));
                     int y = fabs((int)rand() % (rows - ((*i)+1)));
+                    std::cout << x << " " << y << " " << j->imgMaxBand[0].size() << " " << *i << "\n";
                     // Percorre as orientaçoes
                     for(int l = 0; l < nOrientacoes; l++){
                         cv::Rect roi(x, y, *i, *i);
-                        cv::Mat crop(j->imgMaxBand[l], roi);
-                        pat->patch[l] = crop.clone();
+                        //cv::Mat crop(j->imgMaxBand[l], roi);
+                        //pat->patch[l] = crop.clone();
                     }
                     pat++;
                 }

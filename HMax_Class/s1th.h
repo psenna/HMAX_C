@@ -23,6 +23,7 @@ public:
                   std::vector<double>* gama, std::vector<double>* orientation, std::vector<cv::Mat>* filters, QObject *parent = 0);
 
     std::vector<S1_T>* gaborFilterResult;
+    std::vector<cv::Mat>* filters;
 
 private:
     cv::Mat image;
@@ -31,7 +32,6 @@ private:
     std::vector<double>* sigma;
     std::vector<double>* gama;
     std::vector<double>* orientation;
-    std::vector<cv::Mat>* filters;
 
     void run();
 

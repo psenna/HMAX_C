@@ -50,6 +50,5 @@ void C1th::run(){
         imgS1_2++;
         tam++;
         over++;
-        tam++;
     }
 }
