@@ -8,8 +8,9 @@
 #include <QStandardItem>
 #include <QString>
 #include <iostream>
+#include <fstream>
 #include "estruturas.h"
-#include "processaimagem.h"
+#include "processaclasses.h"
 
 namespace Ui {
 class MainWindow;
@@ -30,26 +31,19 @@ private slots:
 
     void on_botaoVoc_clicked();
 
+    void on_pushButton_4_clicked();
+
+    void on_botaoRodar_clicked();
+
+public slots:
+    void terminouDeProcessarImagens();
+    void atualizaProgresso();
+    void setNumImagensProgresso(int num);
+
 private:
     Ui::MainWindow *ui;
-    std::vector<classeImagem> classesImagens;
-
-    void iniciaParametros();
-
-    // Parametros do programa.
-    // Vetores de parametros S1
-    std::vector<int>     tamanhosS1;
-    std::vector<double>  lambdaS1;
-    std::vector<double>  sigmaS1;
-    std::vector<double>  gamaS1;
-    std::vector<double>  orientacaoS1;
-
-    // Vetores de parametros C1
-    std::vector<int> tamanhoC1;
-    std::vector<int> overlapC1;
-
-    std::vector<cv::Mat> filtrosGaborS1;
-    std::vector<patchC1> patsC1;
+    ProcessaClasses classes;
+    QString arqSaidaSVM;
 
 
 };

@@ -26,7 +26,8 @@ SOURCES += main.cpp\
     HMax_Class/c2th.cpp \
     HMax_Class/c1pathdiccreator.cpp \
     processaimagem.cpp \
-    adicionaclasse.cpp
+    adicionaclasse.cpp \
+    processaclasses.cpp
 
 HEADERS  += mainwindow.h \
     HMax_Class/s1th.h \
@@ -36,7 +37,8 @@ HEADERS  += mainwindow.h \
     HMax_Class/c1pathdiccreator.h \
     processaimagem.h \
     adicionaclasse.h \
-    estruturas.h
+    estruturas.h \
+    processaclasses.h
 
 FORMS    += mainwindow.ui \
     adicionaclasse.ui

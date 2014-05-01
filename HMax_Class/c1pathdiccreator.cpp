@@ -47,15 +47,19 @@ void C1pathDicCreator::run(){
                 for(int k = 0; k < nPatPorIMG; k++){
                     int rows = j->imgMaxBand[0].rows;
                     int col = j->imgMaxBand[0].cols;
-                    int x = fabs((int)rand() % (col - ((*i)+1)));
-                    int y = fabs((int)rand() % (rows - ((*i)+1)));
-                    std::cout << x << " " << y << " " << j->imgMaxBand[0].size() << " " << *i << "\n";
-                    // Percorre as orientaçoes
-                    for(int l = 0; l < nOrientacoes; l++){
-                        cv::Rect roi(x, y, *i, *i);
-                        //cv::Mat crop(j->imgMaxBand[l], roi);
-                        //pat->patch[l] = crop.clone();
+                    if(rows > *i && col > *i){
+                        int x = fabs((int)rand() % (col - ((*i)+1)));
+                        int y = fabs((int)rand() % (rows - ((*i)+1)));
+                        // Percorre as orientaçoes
+                        for(int l = 0; l < nOrientacoes; l++){
+                            cv::Rect roi(x, y, *i, *i);
+                            cv::Mat crop(j->imgMaxBand[l], roi);
+                            pat->patch[l] = crop.clone();
+                        }
+                    } else {
+                        std::cout << "Indexing Error, no good =(\n";
                     }
+
                     pat++;
                 }
             }

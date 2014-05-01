@@ -29,9 +29,6 @@ public:
 private:
     void run();
 
-    QString nomeImagem;
-    int classe;
-
     // Vetores de parametros S1
     std::vector<int>*     tamanhosS1;
     std::vector<double>*  lambdaS1;
@@ -44,6 +41,9 @@ private:
     std::vector<int>* overlapC1;
 
 public:
+    QString nomeImagem;
+    int classe;
+
     // Vetores de parametros S1
     std::vector<cv::Mat>* filtrosGaborS1;
 

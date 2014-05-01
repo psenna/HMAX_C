@@ -17,7 +17,7 @@ void C2th::run(){
     this->estimulos = new std::vector<double>;
     this->estimulos->resize(patchs->size());
     for(std::vector<double>::iterator i = estimulos->begin(); i != estimulos->end(); ++i)
-        *i = -DBL_MAX;
+        *i = 0;
 
     std::vector<double>::iterator est = estimulos->begin();
     cv::Mat aux;
@@ -30,19 +30,21 @@ void C2th::run(){
             int deslocx = i->patch[0].rows;
             int deslocy = i->patch[0].cols;
 
-            for(int k = 0; k < tamanhoy; k++){
-                for(int l = 0; l < tamanhox; l++){
-                    auxEsp = 0;
-                    for(int m = 0; m < nOrientacoes; m++){
-                        cv::Rect roi(l, k, deslocx, deslocy);
-                        cv::Mat crop(j->imgMaxBand[m], roi);
-                        cv::absdiff(crop, i->patch[m], aux);
-                        cv::Scalar soma = cv::sum(aux);
-                        auxEsp += soma[0];
+            if(deslocx < tamanhox && deslocy < tamanhoy){
+                for(int k = 0; k < tamanhoy; k++){
+                    for(int l = 0; l < tamanhox; l++){
+                        auxEsp = 0;
+                        for(int m = 0; m < nOrientacoes; m++){
+                            cv::Rect roi(l, k, deslocx, deslocy);
+                            cv::Mat crop(j->imgMaxBand[m], roi);
+                            cv::absdiff(crop, i->patch[m], aux);
+                            cv::Scalar soma = cv::sum(aux);
+                            auxEsp += soma[0];
+                        }
+                        auxEsp = exp(-(auxEsp*auxEsp)/(2*sigma*sigma*alpha));
+                        if(auxEsp > *est)
+                            *est = auxEsp;
                     }
-                    auxEsp = exp(-(auxEsp*auxEsp)/(2*sigma*sigma*alpha));
-                    if(auxEsp > *est)
-                        *est = auxEsp;
                 }
             }
         }
