@@ -20,14 +20,15 @@ TARGET = HMAX_Senna
 TEMPLATE = app
 
 SOURCES += main.cpp\
-        mainwindow.cpp \
     HMax_Class/s1th.cpp \
     HMax_Class/c1th.cpp \
     HMax_Class/c2th.cpp \
     HMax_Class/c1pathdiccreator.cpp \
     processaimagem.cpp \
     adicionaclasse.cpp \
-    processaclasses.cpp
+    processaclasses.cpp \
+    ../mainwindow.cpp \
+    mainwindow.cpp
 
 HEADERS  += mainwindow.h \
     HMax_Class/s1th.h \

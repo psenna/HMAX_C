@@ -6,7 +6,6 @@ ProcessaClasses::ProcessaClasses(QObject *parent) :
     iniciaParametros();
 }
 
-
 void ProcessaClasses::iniciaParametros(){
     tamanhosS1.push_back(7);
     tamanhosS1.push_back(9);

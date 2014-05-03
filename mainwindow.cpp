@@ -6,7 +6,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
     // Configura a tablewidget
     ui->tableWidget->insertColumn(0);
     ui->tableWidget->insertColumn(1);
