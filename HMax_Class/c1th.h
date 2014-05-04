@@ -24,14 +24,13 @@ public:
     explicit C1th(std::vector<int>* tamanho, std::vector<int>* overlap, std::vector<S1_T>* imagensS1, QObject *parent = 0);
 
     std::vector<C1_T>* resultado;
+    void roda();
 
 private:
     std::vector<S1_T>* imagensS1;
     std::vector<int>* tamanho;
     std::vector<int>* overlap;
-
     void run();
-
 };
 
 #endif // C1TH_H

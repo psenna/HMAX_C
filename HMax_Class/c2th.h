@@ -24,12 +24,13 @@ public:
 
     std::vector<double> *estimulos;
 
+    void roda();
+
 private:
     std::vector<patchC1> *patchs;
     std::vector<C1_T>    *C1output;
     double sigma;
     double alpha;
-
     void run();
 
 };

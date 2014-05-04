@@ -80,6 +80,11 @@ void ProcessaClasses::iniciaParametros(){
     overlapC1.push_back(7);
     overlapC1.push_back(8);
     overlapC1.push_back(9);
+
+    S1Th s1(cv::Mat(), &tamanhosS1, &lambdaS1, &sigmaS1, &gamaS1, &orientacaoS1, NULL);
+    s1.criaFiltro();
+    filtrosGaborS1.insert(filtrosGaborS1.end(), s1.filters->begin(), s1.filters->end());
+    delete(s1.filters);
 }
 
 void ProcessaClasses::criaVocabulario(QString imagem){
@@ -98,7 +103,7 @@ void ProcessaClasses::run(){
         for(int i = 0; i < txtFilesAndDirectories.size() && i < it->numImgs; i++){
             QString arquivo = txtFilesAndDirectories.at(i);
             arquivo = it->caminho + "/" + arquivo;
-            ProcessaImagem *img = new ProcessaImagem(arquivo, it->id, NULL, &tamanhosS1,
+            ProcessaImagem *img = new ProcessaImagem(arquivo, it->id, &filtrosGaborS1, &tamanhosS1,
                                                      &lambdaS1, &sigmaS1, &gamaS1, &orientacaoS1,
                                                      &tamanhoC1, &overlapC1, &patsC1);
             this->threadsImagens.push_back(img);

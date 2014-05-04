@@ -24,6 +24,8 @@ public:
 
     std::vector<S1_T>* gaborFilterResult;
     std::vector<cv::Mat>* filters;
+    void roda();
+    void criaFiltro();
 
 private:
     cv::Mat image;
@@ -32,9 +34,7 @@ private:
     std::vector<double>* sigma;
     std::vector<double>* gama;
     std::vector<double>* orientation;
-
     void run();
-
 };
 
 #endif // S1TH_H

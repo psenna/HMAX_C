@@ -40,23 +40,24 @@ void ProcessaImagem::run(){
     cvtColor(imagem, imagem, CV_BGR2GRAY);
 
     // S1
+    std::cout << "Começo\n";
     S1Th s1(imagem, tamanhosS1, lambdaS1, sigmaS1, gamaS1, orientacaoS1, filtrosGaborS1);
-    s1.start();
-    s1.wait();
+    s1.roda();
     this->respS1 = s1.gaborFilterResult;
+    std::cout << "Fooi\n";
 
     // C1
     C1th c1(tamanhoC1, overlapC1, respS1);
-    c1.start();
-    c1.wait();
+    c1.roda();
     this->respC1 = c1.resultado;
+    delete(this->respS1);
 
     if(patsC1 != NULL){
         // Realizar as camadas S2 e C2
         C2th c2(patsC1, respC1, 1, (tamMenorPat/4)*(tamMenorPat/4));
-        c2.start();
-        c2.wait();
+        c2.roda();
         respC2 =  c2.estimulos;
+        delete(respC1);
     } else {
         // criar os patchs C1
         std::vector<int> tamanhos;
@@ -75,5 +76,3 @@ void ProcessaImagem::run(){
         patsC1 = p1.getPatchs();
     }
 }
-
-
