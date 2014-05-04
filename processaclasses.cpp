@@ -98,11 +98,11 @@ void ProcessaClasses::run(){
         for(int i = 0; i < txtFilesAndDirectories.size() && i < it->numImgs; i++){
             QString arquivo = txtFilesAndDirectories.at(i);
             arquivo = it->caminho + "/" + arquivo;
-            ProcessaImagem *img = new ProcessaImagem(arquivo, 0, NULL, &tamanhosS1,
+            ProcessaImagem *img = new ProcessaImagem(arquivo, it->id, NULL, &tamanhosS1,
                                                      &lambdaS1, &sigmaS1, &gamaS1, &orientacaoS1,
                                                      &tamanhoC1, &overlapC1, &patsC1);
             this->threadsImagens.push_back(img);
-            //(*this->threadsImagens.end())->start();
+            img->start();
             numImagens++;
         }
     }

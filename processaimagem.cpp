@@ -38,7 +38,7 @@ ProcessaImagem::ProcessaImagem(QString nomeImagem,
 void ProcessaImagem::run(){
     cv::Mat imagem = cv::imread(nomeImagem.toUtf8().data());
     cvtColor(imagem, imagem, CV_BGR2GRAY);
-    std::cout << nomeImagem.toUtf8().data() << "\n";
+
     // S1
     S1Th s1(imagem, tamanhosS1, lambdaS1, sigmaS1, gamaS1, orientacaoS1, filtrosGaborS1);
     s1.start();
@@ -50,7 +50,6 @@ void ProcessaImagem::run(){
     c1.start();
     c1.wait();
     this->respC1 = c1.resultado;
-    std::cout << respC1->size();
 
     if(patsC1 != NULL){
         // Realizar as camadas S2 e C2
@@ -71,10 +70,8 @@ void ProcessaImagem::run(){
         tamanhos.push_back(12);
         numero.push_back(96);
         C1pathDicCreator p1(respC1, &tamanhos, &numero);
-        std::cout << "Inicio\n";
         p1.start();
         p1.wait();
-        std::cout << "Fim\n";
         patsC1 = p1.getPatchs();
     }
 }

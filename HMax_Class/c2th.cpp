@@ -17,7 +17,7 @@ void C2th::run(){
     this->estimulos = new std::vector<double>;
     this->estimulos->resize(patchs->size());
     for(std::vector<double>::iterator i = estimulos->begin(); i != estimulos->end(); ++i)
-        *i = 0;
+        *i = 0.0;
 
     std::vector<double>::iterator est = estimulos->begin();
     cv::Mat aux;
@@ -25,15 +25,16 @@ void C2th::run(){
 
     for(std::vector<patchC1>::iterator i = patchs->begin(); i != patchs->end(); ++i){
         for(std::vector<C1_T>::iterator j = C1output->begin(); j != C1output->end(); ++j){
-            int tamanhox = j->imgMaxBand[0].rows - i->patch[0].rows;
-            int tamanhoy = j->imgMaxBand[0].cols - i->patch[0].cols;
-            int deslocx = i->patch[0].rows;
-            int deslocy = i->patch[0].cols;
-
+            int tamanhox = j->imgMaxBand[0].cols;
+            int tamanhoy = j->imgMaxBand[0].rows;
+            int deslocx = i->patch[0].cols;
+            int deslocy = i->patch[0].rows;
+            int fimx = tamanhox - deslocx;
+            int fimy = tamanhoy - deslocy;
             if(deslocx < tamanhox && deslocy < tamanhoy){
-                for(int k = 0; k < tamanhoy; k++){
-                    for(int l = 0; l < tamanhox; l++){
-                        auxEsp = 0;
+                for(int k = 0; k < fimy; k++){
+                    for(int l = 0; l < fimx; l++){
+                        auxEsp = 0.0;
                         for(int m = 0; m < nOrientacoes; m++){
                             cv::Rect roi(l, k, deslocx, deslocy);
                             cv::Mat crop(j->imgMaxBand[m], roi);
@@ -41,11 +42,14 @@ void C2th::run(){
                             cv::Scalar soma = cv::sum(aux);
                             auxEsp += soma[0];
                         }
-                        auxEsp = exp(-(auxEsp*auxEsp)/(2*sigma*sigma*alpha));
+                        auxEsp = auxEsp / (double)(deslocx*deslocy);
+                        auxEsp = cv::exp((-(auxEsp)/(2.0*sigma*sigma*alpha)));
                         if(auxEsp > *est)
                             *est = auxEsp;
                     }
                 }
+            } else {
+                std::cout << "Menor q pat\n";
             }
         }
         est++;

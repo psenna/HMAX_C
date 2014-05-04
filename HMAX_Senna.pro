@@ -27,7 +27,6 @@ SOURCES += main.cpp\
     processaimagem.cpp \
     adicionaclasse.cpp \
     processaclasses.cpp \
-    ../mainwindow.cpp \
     mainwindow.cpp
 
 HEADERS  += mainwindow.h \

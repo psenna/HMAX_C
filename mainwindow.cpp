@@ -81,18 +81,18 @@ void MainWindow::on_botaoRodar_clicked()
     QString diretorio = QFileDialog::getExistingDirectory(this, tr("Pasta onde salvar o arquivo de classificacao"),
                                                           "", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
     arqSaidaSVM = diretorio + "/" + ui->nomArqSVM->text();
-    std::cout << arqSaidaSVM.toUtf8().data() << "\n";
     classes.run();
 }
 
 void MainWindow::terminouDeProcessarImagens(){
-    std::ofstream arquivo (arqSaidaSVM.toUtf8().data());
+    std::ofstream arquivo(arqSaidaSVM.toUtf8().data());
     for(std::vector<ProcessaImagem*>::iterator it = classes.threadsImagens.begin(); it != classes.threadsImagens.end(); ++it){
         std::vector<double>* respostarC2 = (*it)->respC2;
         int i = 1;
         arquivo << (*it)->classe << " ";
         for(std::vector<double>::iterator jt = respostarC2->begin(); jt != respostarC2->end(); ++jt){
-            arquivo << i << ":" << (*jt) << " ";
+            arquivo << i << ":" << (double)(*jt) << " ";
+            i++;
         }
         arquivo << "\n";
         delete ((*it)->respC2);
