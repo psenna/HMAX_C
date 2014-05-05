@@ -9,6 +9,8 @@
 #include "estruturas.h"
 #include "processaimagem.h"
 
+#define MAXTHREADS 16
+
 class ProcessaClasses : public QThread
 {
     Q_OBJECT
@@ -34,9 +36,14 @@ public:
     std::vector<patchC1> patsC1;
 
     std::vector<ProcessaImagem*> threadsImagens;
+    QBasicMutex mutex;
+    int nThreadRodando;
 
     void criaVocabulario(QString imagem);
     void run();
+
+public slots:
+    void acabouThread();
 
 signals:
     void acabouProcessarImagem();

@@ -81,7 +81,7 @@ void MainWindow::on_botaoRodar_clicked()
     QString diretorio = QFileDialog::getExistingDirectory(this, tr("Pasta onde salvar o arquivo de classificacao"),
                                                           "", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
     arqSaidaSVM = diretorio + "/" + ui->nomArqSVM->text();
-    classes.run();
+    classes.start();
 }
 
 void MainWindow::terminouDeProcessarImagens(){

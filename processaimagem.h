@@ -39,6 +39,7 @@ private:
     // Vetores de parametros C1
     std::vector<int>* tamanhoC1;
     std::vector<int>* overlapC1;
+    QBasicMutex* mutex;
 
 public:
     QString nomeImagem;

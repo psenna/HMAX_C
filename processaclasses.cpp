@@ -85,6 +85,9 @@ void ProcessaClasses::iniciaParametros(){
     s1.criaFiltro();
     filtrosGaborS1.insert(filtrosGaborS1.end(), s1.filters->begin(), s1.filters->end());
     delete(s1.filters);
+    nThreadRodando = 0;
+    //mutex.unlock();
+
 }
 
 void ProcessaClasses::criaVocabulario(QString imagem){
@@ -97,6 +100,11 @@ void ProcessaClasses::criaVocabulario(QString imagem){
 void ProcessaClasses::run(){
     int numImagens = 0;
     for(std::vector<classeImagem>::iterator it = this->classesImagens.begin(); it != this->classesImagens.end(); ++it){
+        numImagens += it->numImgs;
+    }
+    emit numImagensAseremProcessadas(numImagens);
+
+    for(std::vector<classeImagem>::iterator it = this->classesImagens.begin(); it != this->classesImagens.end(); ++it){
         QStringList nameFilter("*.jpg");
         QDir directory(it->caminho);
         QStringList txtFilesAndDirectories = directory.entryList(nameFilter);
@@ -107,21 +115,34 @@ void ProcessaClasses::run(){
                                                      &lambdaS1, &sigmaS1, &gamaS1, &orientacaoS1,
                                                      &tamanhoC1, &overlapC1, &patsC1);
             this->threadsImagens.push_back(img);
+            while(1){
+                mutex.lock();
+                if(nThreadRodando < MAXTHREADS){
+                    nThreadRodando++;
+                    mutex.unlock();
+                    break;
+                }
+                mutex.unlock();
+            }
+            connect(img, SIGNAL(finished()), this, SLOT(acabouThread()));
             img->start();
-            numImagens++;
         }
     }
 
-    emit numImagensAseremProcessadas(numImagens);
+
 
     for(std::vector<ProcessaImagem*>::iterator it = this->threadsImagens.begin(); it != this->threadsImagens.end(); ++it){
         (*it)->wait();
-        emit acabouProcessarImagem();
     }
 
     emit acabouDeProcessarAsImagens();
+}
 
-
+void ProcessaClasses::acabouThread(){
+    mutex.lock();
+    nThreadRodando--;
+    mutex.unlock();
+    emit acabouProcessarImagem();
 }
 
 
