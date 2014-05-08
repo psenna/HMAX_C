@@ -40,11 +40,9 @@ void ProcessaImagem::run(){
     cvtColor(imagem, imagem, CV_BGR2GRAY);
 
     // S1
-    std::cout << "Começo\n";
     S1Th s1(imagem, tamanhosS1, lambdaS1, sigmaS1, gamaS1, orientacaoS1, filtrosGaborS1);
     s1.roda();
     this->respS1 = s1.gaborFilterResult;
-    std::cout << "Fooi\n";
 
     // C1
     C1th c1(tamanhoC1, overlapC1, respS1);
@@ -63,13 +61,13 @@ void ProcessaImagem::run(){
         std::vector<int> tamanhos;
         std::vector<int> numero;
         tamanhos.push_back(2);
-        numero.push_back(96);
+        numero.push_back(30);
         tamanhos.push_back(4);
-        numero.push_back(96);
+        numero.push_back(30);
         tamanhos.push_back(8);
-        numero.push_back(96);
+        numero.push_back(30);
         tamanhos.push_back(12);
-        numero.push_back(96);
+        numero.push_back(30);
         C1pathDicCreator p1(respC1, &tamanhos, &numero);
         p1.start();
         p1.wait();

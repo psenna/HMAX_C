@@ -108,6 +108,20 @@ void C1pathDicCreator::loadPatchs(QString file){
     fs.release();
 }
 
+void C1pathDicCreator::clusteriza(int k){
+    if(this->patchs != NULL){
+        int dimensoes = 30*15;
+        int count[4] = {0,0,0,0};
+        cv::Mat toCluster[4];
+        toCluster[i] = cv::Mat();
+
+        for(std::vector<patchC1>::iterator it = this->patchs->begin(); it != this->patchs->end(); ++it){
+
+
+        }
+    }
+}
+
 void C1pathDicCreator::setPatchs(std::vector<patchC1> *pats){
     this->patchs = pats;
 }

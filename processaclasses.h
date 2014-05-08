@@ -6,6 +6,7 @@
 #include <iostream>
 #include <QDir>
 #include <qstringlist.h>
+#include <QBasicMutex>
 #include "estruturas.h"
 #include "processaimagem.h"
 

@@ -11,6 +11,7 @@
 #define C1PATHDICCREATOR_H
 
 #include <QThread>
+#include <set>
 #include "baseStructs.h"
 
 class C1pathDicCreator : public QThread
@@ -33,6 +34,7 @@ public:
 
     void salvaPatchesArquivo(QString file);
     void loadPatchs(QString file);
+    void clusteriza(int k);
 
     void run();
 

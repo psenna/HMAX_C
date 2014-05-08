@@ -86,8 +86,8 @@ void ProcessaClasses::iniciaParametros(){
     filtrosGaborS1.insert(filtrosGaborS1.end(), s1.filters->begin(), s1.filters->end());
     delete(s1.filters);
     nThreadRodando = 0;
-    //mutex.unlock();
-
+    this->mutex.lock();
+    this->mutex.unlock();
 }
 
 void ProcessaClasses::criaVocabulario(QString imagem){
