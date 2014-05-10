@@ -105,11 +105,15 @@ void ProcessaClasses::run(){
     emit numImagensAseremProcessadas(numImagens);
 
     for(std::vector<classeImagem>::iterator it = this->classesImagens.begin(); it != this->classesImagens.end(); ++it){
+        srand(time(NULL));
         QStringList nameFilter("*.jpg");
         QDir directory(it->caminho);
-        QStringList txtFilesAndDirectories = directory.entryList(nameFilter);
-        for(int i = 0; i < txtFilesAndDirectories.size() && i < it->numImgs; i++){
-            QString arquivo = txtFilesAndDirectories.at(i);
+        QStringList imageFiles = directory.entryList(nameFilter);
+
+        for(int i = 0; imageFiles.size() && i < it->numImgs; i++){
+            int imgSorteada = rand() % (imageFiles.size() - 1);
+            QString arquivo = imageFiles.at(imgSorteada);
+            imageFiles.removeAt(imgSorteada);
             arquivo = it->caminho + "/" + arquivo;
             ProcessaImagem *img = new ProcessaImagem(arquivo, it->id, &filtrosGaborS1, &tamanhosS1,
                                                      &lambdaS1, &sigmaS1, &gamaS1, &orientacaoS1,

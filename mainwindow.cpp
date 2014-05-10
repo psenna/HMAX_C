@@ -82,6 +82,7 @@ void MainWindow::on_botaoRodar_clicked()
                                                           "", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
     arqSaidaSVM = diretorio + "/" + ui->nomArqSVM->text();
     classes.start();
+    ui->botaoRodar->setEnabled(false);
 }
 
 void MainWindow::terminouDeProcessarImagens(){
@@ -99,6 +100,9 @@ void MainWindow::terminouDeProcessarImagens(){
         delete((*it));
     }
     arquivo.close();
+    ui->botaoRodar->setEnabled(true);
+    ui->progressBar->setMaximum(1);
+    ui->progressBar->setValue(1);
 }
 
 void MainWindow::atualizaProgresso(){
@@ -111,3 +115,26 @@ void MainWindow::setNumImagensProgresso(int num){
     ui->progressBar->setMaximum(num);
 }
 
+
+void MainWindow::on_pushButton_clicked()
+{
+    QString diretorio = QFileDialog::getExistingDirectory(this, tr("Diretorio com as classes separadas em pastas"),
+                                                          "", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+    QDir directory(diretorio);
+    directory.setFilter(QDir::Dirs | QDir::NoDotAndDotDot);
+    QStringList nomesDiretorios = directory.entryList();
+    int imgPorClasses = ui->NumImgPClasse->text().toInt();
+    for(QStringList::iterator i = nomesDiretorios.begin(); i != nomesDiretorios.end(); ++i){
+        classeImagem classe;
+        classe.caminho = diretorio + "/" +*i;
+        classe.nome = *i;
+
+        classe.numImgs = imgPorClasses;
+        classe.id = classes.classesImagens.size();
+        classes.classesImagens.push_back(classe);
+
+        ui->tableWidget->insertRow(classe.id);
+        ui->tableWidget->setItem(classe.id, 0, new QTableWidgetItem(classe.nome));
+        ui->tableWidget->setItem(classe.id, 1, new QTableWidgetItem(QString().sprintf("%d",classe.numImgs)));
+    }
+}
