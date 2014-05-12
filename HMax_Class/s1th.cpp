@@ -16,8 +16,8 @@ S1Th::S1Th(QObject *parent) :
  * @param orientation
  * @param filters
  */
-S1Th::S1Th(cv::Mat image, std::vector<int> *sizes, std::vector<float> *lambda, std::vector<float> *sigma,
-           std::vector<float> *gama, std::vector<float> *orientation, std::vector<cv::Mat> *filters, QObject *parent):
+S1Th::S1Th(cv::Mat image, std::vector<int> *sizes, std::vector<double> *lambda, std::vector<double> *sigma,
+           std::vector<double> *gama, std::vector<double> *orientation, std::vector<cv::Mat> *filters, QObject *parent):
     QThread(parent)
 {
     this->image = image;
@@ -49,17 +49,17 @@ void S1Th::run(){
         std::vector<cv::Mat>::iterator filter = filters->begin();
         std::vector<S1_T>::iterator result = gaborFilterResult->begin();
         std::vector<int>::iterator tamanho = sizes->begin();
-        std::vector<float>::iterator lamb = lambda->begin();
-        std::vector<float>::iterator sig = sigma->begin();
-        std::vector<float>::iterator gam = gama->begin();
+        std::vector<double>::iterator lamb = lambda->begin();
+        std::vector<double>::iterator sig = sigma->begin();
+        std::vector<double>::iterator gam = gama->begin();
 
         for(int i = 0; i < (int)sizes->size(); i++){
-            std::vector<float>::iterator orient = orientation->begin();
+            std::vector<double>::iterator orient = orientation->begin();
             for(int j = 0; j < (int)orientation->size(); j++){
-                *filter = cv::getGaborKernel(cv::Size(*tamanho, *tamanho), *sig, *orient, *lamb, *gam, 0, CV_32F);
+                *filter = cv::getGaborKernel(cv::Size(*tamanho, *tamanho), *sig, *orient, *lamb, *gam, 0, CV_64F);
                 result->tamanho = *tamanho;
                 result->orientation[j] = *orient;
-                cv::filter2D(image, result->imgFiltrada[j], CV_32F, *filter);
+                cv::filter2D(image, result->imgFiltrada[j], CV_64F, *filter);
 
                 filter++;
                 orient++;
@@ -79,7 +79,7 @@ void S1Th::run(){
         std::vector<int>::iterator tamanho = sizes->begin();
 
         for(int i = 0; i < (int)sizes->size(); i++){
-            std::vector<float>::iterator orient = orientation->begin();
+            std::vector<double>::iterator orient = orientation->begin();
             for(int j = 0; j < (int)orientation->size(); j++){
                 result->tamanho = *tamanho;
                 result->orientation[j] = *orient;
@@ -109,12 +109,12 @@ void S1Th::roda(){
         std::vector<cv::Mat>::iterator filter = filters->begin();
         std::vector<S1_T>::iterator result = gaborFilterResult->begin();
         std::vector<int>::iterator tamanho = sizes->begin();
-        std::vector<float>::iterator lamb = lambda->begin();
-        std::vector<float>::iterator sig = sigma->begin();
-        std::vector<float>::iterator gam = gama->begin();
+        std::vector<double>::iterator lamb = lambda->begin();
+        std::vector<double>::iterator sig = sigma->begin();
+        std::vector<double>::iterator gam = gama->begin();
 
         for(int i = 0; i < (int)sizes->size(); i++){
-            std::vector<float>::iterator orient = orientation->begin();
+            std::vector<double>::iterator orient = orientation->begin();
             for(int j = 0; j < (int)orientation->size(); j++){
                 *filter = cv::getGaborKernel(cv::Size(*tamanho, *tamanho), *sig, *orient, *lamb, *gam, 0, CV_64F);
                 result->tamanho = *tamanho;
@@ -139,7 +139,7 @@ void S1Th::roda(){
         std::vector<int>::iterator tamanho = sizes->begin();
 
         for(int i = 0; i < (int)sizes->size(); i++){
-            std::vector<float>::iterator orient = orientation->begin();
+            std::vector<double>::iterator orient = orientation->begin();
             for(int j = 0; j < (int)orientation->size(); j++){
                 result->tamanho = *tamanho;
                 result->orientation[j] = *orient;
@@ -163,12 +163,12 @@ void S1Th::criaFiltro(){
 
         std::vector<cv::Mat>::iterator filter = filters->begin();
         std::vector<int>::iterator tamanho = sizes->begin();
-        std::vector<float>::iterator lamb = lambda->begin();
-        std::vector<float>::iterator sig = sigma->begin();
-        std::vector<float>::iterator gam = gama->begin();
+        std::vector<double>::iterator lamb = lambda->begin();
+        std::vector<double>::iterator sig = sigma->begin();
+        std::vector<double>::iterator gam = gama->begin();
 
         for(int i = 0; i < (int)sizes->size(); i++){
-            std::vector<float>::iterator orient = orientation->begin();
+            std::vector<double>::iterator orient = orientation->begin();
             for(int j = 0; j < (int)orientation->size(); j++){
                 *filter = cv::getGaborKernel(cv::Size(*tamanho, *tamanho), *sig, *orient, *lamb, *gam, 0, CV_64F);
                 filter++;

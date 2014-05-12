@@ -19,18 +19,18 @@ class C2th : public QThread
     Q_OBJECT
 public:
     explicit C2th(QObject *parent = 0);
-    explicit C2th(std::vector<patchC1> *patchs, std::vector<C1_T> *C1output, float sigma,
-                  float alpha,QObject *parent = 0);
+    explicit C2th(std::vector<patchC1> *patchs, std::vector<C1_T> *C1output, double sigma,
+                  double alpha,QObject *parent = 0);
 
-    std::vector<float> *estimulos;
+    std::vector<double> *estimulos;
 
     void roda();
 
 private:
     std::vector<patchC1> *patchs;
     std::vector<C1_T>    *C1output;
-    float sigma;
-    float alpha;
+    double sigma;
+    double alpha;
     void run();
 
 };

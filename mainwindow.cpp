@@ -53,7 +53,7 @@ void MainWindow::on_actionSair_triggered()
 void MainWindow::on_botaoVoc_clicked()
 {
     classes.patsC1.clear();
-    for(int i = 0; i < 15; i++){
+    for(int i = 0; i < 5; i++){
         QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"),
                                                         "",
                                                         tr("Files (*.*)"));
@@ -88,11 +88,11 @@ void MainWindow::on_botaoRodar_clicked()
 void MainWindow::terminouDeProcessarImagens(){
     std::ofstream arquivo(arqSaidaSVM.toUtf8().data());
     for(std::vector<ProcessaImagem*>::iterator it = classes.threadsImagens.begin(); it != classes.threadsImagens.end(); ++it){
-        std::vector<float>* respostarC2 = (*it)->respC2;
+        std::vector<double>* respostarC2 = (*it)->respC2;
         int i = 1;
         arquivo << (*it)->classe << " ";
-        for(std::vector<float>::iterator jt = respostarC2->begin(); jt != respostarC2->end(); ++jt){
-            arquivo << i << ":" << (float)(*jt) << " ";
+        for(std::vector<double>::iterator jt = respostarC2->begin(); jt != respostarC2->end(); ++jt){
+            arquivo << i << ":" << (double)(*jt) << " ";
             i++;
         }
         arquivo << "\n";

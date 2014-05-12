@@ -26,14 +26,14 @@
 struct S1_T{
     cv::Mat imgFiltrada[nOrientacoes];
     int tamanho;
-    float orientation[nOrientacoes];
+    double orientation[nOrientacoes];
 };
 
 struct C1_T{
     cv::Mat imgMaxBand[nOrientacoes];
     int tamanho;
     int overlap;
-    float orientation[nOrientacoes];
+    double orientation[nOrientacoes];
 };
 
 struct patchC1{
