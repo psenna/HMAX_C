@@ -5,7 +5,7 @@ C2th::C2th(QObject *parent) :
 {
 }
 
-C2th::C2th(std::vector<patchC1> *patchs, std::vector<C1_T> *C1output, double sigma, double alpha, QObject *parent){
+C2th::C2th(std::vector<patchC1> *patchs, std::vector<C1_T> *C1output, float sigma, float alpha, QObject *parent){
     this->patchs = patchs;
     this->C1output = C1output;
     this->alpha = alpha;
@@ -14,14 +14,14 @@ C2th::C2th(std::vector<patchC1> *patchs, std::vector<C1_T> *C1output, double sig
 }
 
 void C2th::run(){
-    this->estimulos = new std::vector<double>;
+    this->estimulos = new std::vector<float>;
     this->estimulos->resize(patchs->size());
-    for(std::vector<double>::iterator i = estimulos->begin(); i != estimulos->end(); ++i)
+    for(std::vector<float>::iterator i = estimulos->begin(); i != estimulos->end(); ++i)
         *i = 0.0;
 
-    std::vector<double>::iterator est = estimulos->begin();
+    std::vector<float>::iterator est = estimulos->begin();
     cv::Mat aux;
-    double auxEsp;
+    float auxEsp;
 
     for(std::vector<patchC1>::iterator i = patchs->begin(); i != patchs->end(); ++i){
         for(std::vector<C1_T>::iterator j = C1output->begin(); j != C1output->end(); ++j){
@@ -42,7 +42,7 @@ void C2th::run(){
                             cv::Scalar soma = cv::sum(aux);
                             auxEsp += soma[0];
                         }
-                        auxEsp = auxEsp / (double)(deslocx*deslocy);
+                        auxEsp = auxEsp / (float)(deslocx*deslocy);
                         auxEsp = cv::exp((-(auxEsp)/(2.0*sigma*sigma*alpha)));
                         if(auxEsp > *est)
                             *est = auxEsp;
@@ -55,14 +55,14 @@ void C2th::run(){
 }
 
 void C2th::roda(){
-    this->estimulos = new std::vector<double>;
+    this->estimulos = new std::vector<float>;
     this->estimulos->resize(patchs->size());
-    for(std::vector<double>::iterator i = estimulos->begin(); i != estimulos->end(); ++i)
+    for(std::vector<float>::iterator i = estimulos->begin(); i != estimulos->end(); ++i)
         *i = 0.0;
 
-    std::vector<double>::iterator est = estimulos->begin();
+    std::vector<float>::iterator est = estimulos->begin();
     cv::Mat aux;
-    double auxEsp;
+    float auxEsp;
 
     for(std::vector<patchC1>::iterator i = patchs->begin(); i != patchs->end(); ++i){
         for(std::vector<C1_T>::iterator j = C1output->begin(); j != C1output->end(); ++j){
@@ -83,7 +83,7 @@ void C2th::roda(){
                             cv::Scalar soma = cv::sum(aux);
                             auxEsp += soma[0];
                         }
-                        auxEsp = auxEsp / (double)(deslocx*deslocy);
+                        auxEsp = auxEsp / (float)(deslocx*deslocy);
                         auxEsp = cv::exp((-(auxEsp)/(1000.0*sigma*sigma*alpha)));
                         if(auxEsp > *est)
                             *est = auxEsp;

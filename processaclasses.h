@@ -24,10 +24,10 @@ public:
     // Parametros do programa.
     // Vetores de parametros S1
     std::vector<int>     tamanhosS1;
-    std::vector<double>  lambdaS1;
-    std::vector<double>  sigmaS1;
-    std::vector<double>  gamaS1;
-    std::vector<double>  orientacaoS1;
+    std::vector<float>  lambdaS1;
+    std::vector<float>  sigmaS1;
+    std::vector<float>  gamaS1;
+    std::vector<float>  orientacaoS1;
 
     // Vetores de parametros C1
     std::vector<int> tamanhoC1;
