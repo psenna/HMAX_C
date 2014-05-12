@@ -99,6 +99,7 @@ void MainWindow::terminouDeProcessarImagens(){
         delete ((*it)->respC2);
         delete((*it));
     }
+    std::cout << "Arquivo " << arqSaidaSVM.toUtf8().data() << " gravado com sucesso.\n";
     arquivo.close();
     ui->botaoRodar->setEnabled(true);
     ui->progressBar->setMaximum(1);

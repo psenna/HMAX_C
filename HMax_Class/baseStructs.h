@@ -19,8 +19,8 @@
 #include <opencv2/highgui/highgui.hpp>
 
 #define PI 3.1415926536
-#define nOrientacoes 4
-#define tamMenorPat 4
+#define nOrientacoes 12
+#define tamMenorPat 2
 
 
 struct S1_T{

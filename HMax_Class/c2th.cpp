@@ -48,8 +48,6 @@ void C2th::run(){
                             *est = auxEsp;
                     }
                 }
-            } else {
-                std::cout << "Menor q pat\n";
             }
         }
         est++;
@@ -91,8 +89,6 @@ void C2th::roda(){
                             *est = auxEsp;
                     }
                 }
-            } else {
-                std::cout << "Menor q pat\n";
             }
         }
         est++;

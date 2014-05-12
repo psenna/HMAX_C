@@ -61,11 +61,9 @@ void ProcessaClasses::iniciaParametros(){
     gamaS1.push_back(0.3);
     gamaS1.push_back(0.3);
 
-
-    orientacaoS1.push_back(0);
-    orientacaoS1.push_back(PI/4);
-    orientacaoS1.push_back(PI/2);
-    orientacaoS1.push_back(3*PI/4);
+    for(int i = 0; i < nOrientacoes; i++){
+        orientacaoS1.push_back(PI*i/nOrientacoes);
+    }
 
     tamanhoC1.push_back(8);
     tamanhoC1.push_back(10);
@@ -111,7 +109,7 @@ void ProcessaClasses::run(){
         QStringList imageFiles = directory.entryList(nameFilter);
 
         for(int i = 0; imageFiles.size() && i < it->numImgs; i++){
-            int imgSorteada = rand() % (imageFiles.size() - 1);
+            int imgSorteada = rand() % imageFiles.size();
             QString arquivo = imageFiles.at(imgSorteada);
             imageFiles.removeAt(imgSorteada);
             arquivo = it->caminho + "/" + arquivo;

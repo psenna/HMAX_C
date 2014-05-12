@@ -61,13 +61,13 @@ void ProcessaImagem::run(){
         std::vector<int> tamanhos;
         std::vector<int> numero;
         tamanhos.push_back(2);
-        numero.push_back(30);
+        numero.push_back(18);
         tamanhos.push_back(4);
-        numero.push_back(30);
+        numero.push_back(24);
         tamanhos.push_back(8);
-        numero.push_back(30);
+        numero.push_back(12);
         tamanhos.push_back(12);
-        numero.push_back(30);
+        numero.push_back(6);
         C1pathDicCreator p1(respC1, &tamanhos, &numero);
         p1.start();
         p1.wait();
