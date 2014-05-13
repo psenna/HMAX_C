@@ -52,7 +52,7 @@ void ProcessaImagem::run(){
 
     if(patsC1 != NULL){
         // Realizar as camadas S2 e C2
-        C2th c2(patsC1, respC1, 1, (tamMenorPat/4)*(tamMenorPat/4));
+        C2th c2(patsC1, respC1, 1, (double)(tamMenorPat/4.0)*(tamMenorPat/4.0));
         c2.roda();
         respC2 =  c2.estimulos;
         delete(respC1);
