@@ -85,7 +85,7 @@ void C2th::roda(){
                             auxEsp += soma[0];
                         }
                         auxEsp = auxEsp / (float)(deslocx*deslocy*nOrientacoes);
-                        auxEsp = cv::exp((-(auxEsp)/(1000.0*sigma*sigma*alpha)));
+                        auxEsp = cv::exp((-(auxEsp)/(4000.0*sigma*sigma*alpha)));
                         if(auxEsp > *est)
                             *est = auxEsp;
                     }
