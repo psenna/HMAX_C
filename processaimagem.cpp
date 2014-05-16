@@ -13,10 +13,10 @@ ProcessaImagem::ProcessaImagem(QString nomeImagem,
                                int classe,
                                std::vector<cv::Mat>* filtrosGaborS1,
                                std::vector<int>*     tamanhosS1,
-                               std::vector<double>*  lambdaS1,
-                               std::vector<double>*  sigmaS1,
-                               std::vector<double>*  gamaS1,
-                               std::vector<double>*  orientacaoS1,
+                               std::vector<float>*  lambdaS1,
+                               std::vector<float>*  sigmaS1,
+                               std::vector<float>*  gamaS1,
+                               std::vector<float>*  orientacaoS1,
                                std::vector<int>* tamanhoC1,
                                std::vector<int>* overlapC1,
                                std::vector<patchC1>* patsC1,
@@ -52,7 +52,7 @@ void ProcessaImagem::run(){
 
     if(patsC1 != NULL){
         // Realizar as camadas S2 e C2
-        C2th c2(patsC1, respC1, 1, (double)(tamMenorPat/4.0)*(tamMenorPat/4.0));
+        C2th c2(patsC1, respC1, 1, (float)((tamMenorPat/4.0)*(tamMenorPat/4.0)));
         c2.roda();
         respC2 =  c2.estimulos;
         delete(respC1);
@@ -60,14 +60,14 @@ void ProcessaImagem::run(){
         // criar os patchs C1
         std::vector<int> tamanhos;
         std::vector<int> numero;
-        tamanhos.push_back(2);
-        numero.push_back(18);
         tamanhos.push_back(4);
         numero.push_back(24);
         tamanhos.push_back(8);
-        numero.push_back(12);
+        numero.push_back(24);
         tamanhos.push_back(12);
-        numero.push_back(6);
+        numero.push_back(24);
+        tamanhos.push_back(16);
+        numero.push_back(24);
         C1pathDicCreator p1(respC1, &tamanhos, &numero);
         p1.start();
         p1.wait();

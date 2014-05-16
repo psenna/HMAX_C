@@ -16,10 +16,10 @@ public:
                             int classe,
                             std::vector<cv::Mat>* filtrosGaborS1,
                             std::vector<int>*     tamanhosS1,
-                            std::vector<double>*  lambdaS1,
-                            std::vector<double>*  sigmaS1,
-                            std::vector<double>*  gamaS1,
-                            std::vector<double>*  orientacaoS1,
+                            std::vector<float>*  lambdaS1,
+                            std::vector<float>*  sigmaS1,
+                            std::vector<float>*  gamaS1,
+                            std::vector<float>*  orientacaoS1,
                             std::vector<int>* tamanhoC1,
                             std::vector<int>* overlapC1,
                             std::vector<patchC1>* patsC1,
@@ -31,10 +31,10 @@ private:
 
     // Vetores de parametros S1
     std::vector<int>*     tamanhosS1;
-    std::vector<double>*  lambdaS1;
-    std::vector<double>*  sigmaS1;
-    std::vector<double>*  gamaS1;
-    std::vector<double>*  orientacaoS1;
+    std::vector<float>*  lambdaS1;
+    std::vector<float>*  sigmaS1;
+    std::vector<float>*  gamaS1;
+    std::vector<float>*  orientacaoS1;
 
     // Vetores de parametros C1
     std::vector<int>* tamanhoC1;
@@ -53,7 +53,7 @@ public:
     // Saidas
     std::vector<C1_T>* respC1;
     std::vector<S1_T>* respS1;
-    std::vector<double>* respC2;
+    std::vector<float>* respC2;
 
 };
 

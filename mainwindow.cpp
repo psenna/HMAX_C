@@ -88,11 +88,11 @@ void MainWindow::on_botaoRodar_clicked()
 void MainWindow::terminouDeProcessarImagens(){
     std::ofstream arquivo(arqSaidaSVM.toUtf8().data());
     for(std::vector<ProcessaImagem*>::iterator it = classes.threadsImagens.begin(); it != classes.threadsImagens.end(); ++it){
-        std::vector<double>* respostarC2 = (*it)->respC2;
+        std::vector<float>* respostarC2 = (*it)->respC2;
         int i = 1;
         arquivo << (*it)->classe << " ";
-        for(std::vector<double>::iterator jt = respostarC2->begin(); jt != respostarC2->end(); ++jt){
-            arquivo << i << ":" << (double)(*jt) << " ";
+        for(std::vector<float>::iterator jt = respostarC2->begin(); jt != respostarC2->end(); ++jt){
+            arquivo << i << ":" << (float)(*jt) << " ";
             i++;
         }
         arquivo << "\n";
