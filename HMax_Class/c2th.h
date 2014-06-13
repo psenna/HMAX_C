@@ -31,7 +31,6 @@ private:
     std::vector<C1_T>    *C1output;
     float sigma;
     float alpha;
-    void run();
 
 };
 

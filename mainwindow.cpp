@@ -53,7 +53,7 @@ void MainWindow::on_actionSair_triggered()
 void MainWindow::on_botaoVoc_clicked()
 {
     classes.patsC1.clear();
-    for(int i = 0; i < 5; i++){
+    for(int i = 0; i < 10; i++){
         QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"),
                                                         "",
                                                         tr("Files (*.*)"));
@@ -77,6 +77,7 @@ void MainWindow::on_pushButton_4_clicked()
 
 void MainWindow::on_botaoRodar_clicked()
 {
+    tempo = clock();
     //! @todo Verificar se o dicionario ja foi criado ou carregado.
     QString diretorio = QFileDialog::getExistingDirectory(this, tr("Pasta onde salvar o arquivo de classificacao"),
                                                           "", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
@@ -104,6 +105,8 @@ void MainWindow::terminouDeProcessarImagens(){
     ui->botaoRodar->setEnabled(true);
     ui->progressBar->setMaximum(1);
     ui->progressBar->setValue(1);
+    tempo = clock() - tempo;
+    std::cout << "Tempo: " << ((float)tempo)/CLOCKS_PER_SEC << "\n";
 }
 
 void MainWindow::atualizaProgresso(){

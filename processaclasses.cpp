@@ -84,7 +84,11 @@ void ProcessaClasses::iniciaParametros(){
     filtrosGaborS1.insert(filtrosGaborS1.end(), s1.filters->begin(), s1.filters->end());
     delete(s1.filters);
     nThreadRodando = 0;
+
+    #ifdef __APPLE__
     this->mutex.lock();
+    #endif
+
     this->mutex.unlock();
 }
 
