@@ -32,15 +32,17 @@ void C2th::roda(){
     for(std::vector<patchC1>::iterator i = patchs->begin(); i != patchs->end(); ++i){
         for(std::vector<C1_T>::iterator j = C1output->begin(); j != C1output->end(); ++j){
             if(i->patch[0].cols < j->imgMaxBand[0].cols && i->patch[0].rows < j->imgMaxBand[0].rows){
-#ifdef CUDAON
-                soma.upload(cv::Mat::zeros(j->imgMaxBand[0].rows - i->patch[0].rows + 1, j->imgMaxBand[0].cols - i->patch[0].cols + 1, CV_32F));
-#else
+#ifndef CUDAON
                 soma = cv::Mat::zeros(j->imgMaxBand[0].rows - i->patch[0].rows + 1, j->imgMaxBand[0].cols - i->patch[0].cols + 1, CV_32F);
 #endif
                 for(int k = 0; k < nOrientacoes; k++){
 #ifdef CUDAON
                     cv::gpu::matchTemplate(j->imgMaxBand[k], i->patch[k], aux, CV_TM_SQDIFF_NORMED);
-                    cv::gpu::add(soma, aux, soma);
+                    if(!k){
+                        soma = aux;
+                    } else {
+                        cv::gpu::add(soma, aux, soma);
+                    }
 #else
                     cv::matchTemplate(j->imgMaxBand[k], i->patch[k], aux, CV_TM_SQDIFF);
                     cv::add(soma, aux, soma);
@@ -48,8 +50,7 @@ void C2th::roda(){
                 }
                 double min, max;
 #ifdef CUDAON
-                cv::Mat somacpu = soma;
-                cv::minMaxLoc(soma, &min, &max, NULL, NULL, cv::Mat());
+                cv::gpu::minMaxLoc(soma, &min, &max, NULL, NULL, cv::gpu::GpuMat());
 #else
                 cv::minMaxLoc(soma, &min, &max, NULL, NULL, cv::Mat());
 #endif
