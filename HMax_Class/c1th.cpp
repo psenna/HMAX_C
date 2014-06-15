@@ -46,8 +46,8 @@ void C1th::run(){
             int coluns = (aux.cols / *over);
             cv::resize(aux, it->imgMaxBand[i], cv::Size(coluns, rows), 0, 0, cv::INTER_NEAREST);
         }
-        imgS1++;
-        imgS1_2++;
+        imgS1+=2;
+        imgS1_2+=2;
         tam++;
         over++;
     }
@@ -86,8 +86,8 @@ void C1th::roda(){
             int coluns = (aux.cols / *over);
             cv::resize(aux, it->imgMaxBand[i], cv::Size(coluns, rows), 0, 0, cv::INTER_NEAREST);
         }
-        imgS1++;
-        imgS1_2++;
+        imgS1+=2;
+        imgS1_2+=2;
         tam++;
         over++;
     }
