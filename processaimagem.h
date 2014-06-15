@@ -14,7 +14,7 @@ public:
     explicit ProcessaImagem(QObject *parent = 0);
     explicit ProcessaImagem(QString nomeImagem,
                             int classe,
-                            std::vector<cv::Mat>* filtrosGaborS1,
+                            std::vector<Filter_T>* filtrosGaborS1,
                             std::vector<int>*     tamanhosS1,
                             std::vector<float>*  lambdaS1,
                             std::vector<float>*  sigmaS1,
@@ -45,7 +45,7 @@ public:
     int classe;
 
     // Vetores de parametros S1
-    std::vector<cv::Mat>* filtrosGaborS1;
+    std::vector<Filter_T>* filtrosGaborS1;
 
     // Parametro S2 ou saida para criar os patsC1
     std::vector<patchC1>* patsC1;

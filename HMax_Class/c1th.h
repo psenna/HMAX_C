@@ -30,7 +30,6 @@ private:
     std::vector<S1_T>* imagensS1;
     std::vector<int>* tamanho;
     std::vector<int>* overlap;
-    void run();
 };
 
 #endif // C1TH_H

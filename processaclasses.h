@@ -23,7 +23,7 @@ public:
 
     // Parametros do programa.
     // Vetores de parametros S1
-    std::vector<int>     tamanhosS1;
+    std::vector<int>    tamanhosS1;
     std::vector<float>  lambdaS1;
     std::vector<float>  sigmaS1;
     std::vector<float>  gamaS1;
@@ -33,7 +33,7 @@ public:
     std::vector<int> tamanhoC1;
     std::vector<int> overlapC1;
 
-    std::vector<cv::Mat> filtrosGaborS1;
+    std::vector<Filter_T> filtrosGaborS1;
     std::vector<patchC1> patsC1;
 
     std::vector<ProcessaImagem*> threadsImagens;

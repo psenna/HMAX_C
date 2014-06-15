@@ -11,7 +11,7 @@ ProcessaImagem::ProcessaImagem(QObject *parent) :
 
 ProcessaImagem::ProcessaImagem(QString nomeImagem,
                                int classe,
-                               std::vector<cv::Mat>* filtrosGaborS1,
+                               std::vector<Filter_T>* filtrosGaborS1,
                                std::vector<int>*     tamanhosS1,
                                std::vector<float>*  lambdaS1,
                                std::vector<float>*  sigmaS1,

@@ -17,6 +17,7 @@
 #include <opencv2/opencv.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/highgui/highgui.hpp>
+#include <opencv2/gpu/gpu.hpp>
 
 #define PI 3.1415926536
 #define nOrientacoes 12
@@ -24,26 +25,44 @@
 
 
 struct S1_T{
+#ifdef  CUDAON
+    cv::gpu::GpuMat imgFiltrada[nOrientacoes];
+#else
     cv::Mat imgFiltrada[nOrientacoes];
+#endif
     int tamanho;
     float orientation[nOrientacoes];
 };
 
 struct C1_T{
+#ifdef CUDAON
+    cv::gpu::GpuMat imgMaxBand[nOrientacoes];
+#else
     cv::Mat imgMaxBand[nOrientacoes];
+#endif
     int tamanho;
     int overlap;
     float orientation[nOrientacoes];
 };
 
 struct patchC1{
+#ifdef CUDAON
+    cv::gpu::GpuMat patch[nOrientacoes];
+#else
     cv::Mat patch[nOrientacoes];
+#endif
 };
 
 struct S2_T{
     cv::Mat respostaAosEstimulos;
     patchC1 patch;
 };
+
+#ifdef CUDAON
+#define Filter_T cv::gpu::GpuMat
+#else
+#define Filter_T cv::Mat
+#endif
 
 
 #endif // BASESTRUCTS_H
