@@ -21,20 +21,39 @@ void C2th::roda(){
         *i = 0.0;
 
     std::vector<float>::iterator est = estimulos->begin();
+#ifdef CUDAON
+    cv::gpu::GpuMat aux;
+    cv::gpu::GpuMat soma;
+#else
     cv::Mat aux;
     cv::Mat soma;
+#endif
 
     for(std::vector<patchC1>::iterator i = patchs->begin(); i != patchs->end(); ++i){
         for(std::vector<C1_T>::iterator j = C1output->begin(); j != C1output->end(); ++j){
             if(i->patch[0].cols < j->imgMaxBand[0].cols && i->patch[0].rows < j->imgMaxBand[0].rows){
+#ifdef CUDAON
+                soma.upload(cv::Mat::zeros(j->imgMaxBand[0].rows - i->patch[0].rows + 1, j->imgMaxBand[0].cols - i->patch[0].cols + 1, CV_32F));
+#else
                 soma = cv::Mat::zeros(j->imgMaxBand[0].rows - i->patch[0].rows + 1, j->imgMaxBand[0].cols - i->patch[0].cols + 1, CV_32F);
+#endif
                 for(int k = 0; k < nOrientacoes; k++){
-                    cv::matchTemplate(j->imgMaxBand[k], i->patch[k], aux, CV_TM_SQDIFF_NORMED);
+#ifdef CUDAON
+                    cv::gpu::matchTemplate(j->imgMaxBand[k], i->patch[k], aux, CV_TM_SQDIFF_NORMED);
+                    cv::gpu::add(soma, aux, soma);
+#else
+                    cv::matchTemplate(j->imgMaxBand[k], i->patch[k], aux, CV_TM_SQDIFF);
                     cv::add(soma, aux, soma);
+#endif
                 }
                 double min, max;
+#ifdef CUDAON
+                cv::Mat somacpu = soma;
                 cv::minMaxLoc(soma, &min, &max, NULL, NULL, cv::Mat());
-                *est = (float) cv::exp((-(min)/(2.0*sigma*sigma*alpha)));
+#else
+                cv::minMaxLoc(soma, &min, &max, NULL, NULL, cv::Mat());
+#endif
+                *est = (float) cv::exp((-(min)/(5000000000*sigma*sigma*alpha)));
             }
         }
         est++;

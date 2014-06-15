@@ -68,7 +68,12 @@ void ProcessaImagem::run(){
         numero.push_back(24);
         tamanhos.push_back(16);
         numero.push_back(24);
+#ifdef  CUDAON
+        cv::Mat respC1CPU = respC1;
+        C1pathDicCreator p1(respC1CPU, &tamanhos, &numero);
+#else
         C1pathDicCreator p1(respC1, &tamanhos, &numero);
+#endif
         p1.start();
         p1.wait();
         patsC1 = p1.getPatchs();

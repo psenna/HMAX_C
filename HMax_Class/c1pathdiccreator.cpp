@@ -54,7 +54,11 @@ void C1pathDicCreator::run(){
                         for(int l = 0; l < nOrientacoes; l++){
                             cv::Rect roi(x, y, *i, *i);
                             cv::Mat crop(j->imgMaxBand[l], roi);
+#ifdef CUDA
+                            pat->patch[l].upload(crop.clone());
+#else
                             pat->patch[l] = crop.clone();
+#endif
                         }
                     } else {
                         std::cout << "Indexing Error, no good =(\n";
@@ -97,10 +101,18 @@ void C1pathDicCreator::loadPatchs(QString file){
         this->patchs = new std::vector<patchC1>;
         this->patchs->resize(nPatchs);
         int i = 0;
+#ifdef  CUDAON
+        cv::Mat auxCPU;
+#endif
         for(std::vector<patchC1>::iterator it = this->patchs->begin(); it != this->patchs->end(); ++it){
             for(int j = 0; j < nOrientacoes; j++){
                 str = QString().sprintf("img_%d_orient_%d",i, j);
+#ifdef CUDAON
+                fs[str.toUtf8().data()]  >> auxCPU;
+                it->patch[j].upload(auxCPU);
+#else
                 fs[str.toUtf8().data()]  >> it->patch[j];
+#endif
             }
             i++;
         }
@@ -109,14 +121,6 @@ void C1pathDicCreator::loadPatchs(QString file){
 }
 
 void C1pathDicCreator::clusteriza(int k){
-    if(this->patchs != NULL){
-        int dimensoes = 30*15;
-        int count[4] = {0,0,0,0};
-        cv::Mat toCluster[4];
-        for(std::vector<patchC1>::iterator it = this->patchs->begin(); it != this->patchs->end(); ++it){
-
-        }
-    }
 }
 
 void C1pathDicCreator::setPatchs(std::vector<patchC1> *pats){
