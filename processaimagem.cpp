@@ -38,6 +38,7 @@ ProcessaImagem::ProcessaImagem(QString nomeImagem,
 void ProcessaImagem::run(){
     cv::Mat imagem = cv::imread(nomeImagem.toUtf8().data());
     cvtColor(imagem, imagem, CV_BGR2GRAY);
+    imagem.convertTo(imagem, CV_32F);
 
     // S1
     S1Th s1(imagem, tamanhosS1, lambdaS1, sigmaS1, gamaS1, orientacaoS1, filtrosGaborS1);
@@ -68,12 +69,7 @@ void ProcessaImagem::run(){
         numero.push_back(24);
         tamanhos.push_back(16);
         numero.push_back(24);
-#ifdef  CUDAON
-        cv::Mat respC1CPU = respC1;
-        C1pathDicCreator p1(respC1CPU, &tamanhos, &numero);
-#else
         C1pathDicCreator p1(respC1, &tamanhos, &numero);
-#endif
         p1.start();
         p1.wait();
         patsC1 = p1.getPatchs();

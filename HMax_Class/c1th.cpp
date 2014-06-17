@@ -28,19 +28,12 @@ void C1th::roda(){
         it->overlap = *over;
 
         // Cria o elemento da dilatação
-#ifdef  CUDAON
-        cv::gpu::GpuMat element;
-        element.upload(cv::getStructuringElement( cv::MORPH_RECT,
-                                                  cv::Size( *tam, *tam ),
-                                                  cv::Point( floor(*tam/2), floor(*tam/2))));
-#else
         cv::Mat element = cv::getStructuringElement( cv::MORPH_RECT,
                                                      cv::Size( *tam, *tam ),
                                                      cv::Point( floor(*tam/2), floor(*tam/2)));
-#endif
 
         for(int i = 0; i < nOrientacoes; i++){
-#ifdef CUDAON
+#ifdef CUDAON2
             cv::gpu::GpuMat aux  = imgS1->imgFiltrada[i];
             cv::gpu::GpuMat aux2 = imgS1_2->imgFiltrada[i];
 #else
@@ -49,7 +42,7 @@ void C1th::roda(){
 #endif
 
             // Encontra o máximo ponto a ponto entre as duas imagens da faixa
-#ifdef CUDAON
+#ifdef CUDAON2
             cv::gpu::max(aux, aux2,it->imgMaxBand[i]);
             it->orientation[i] = imgS1->orientation[i];
 #else
@@ -59,7 +52,7 @@ void C1th::roda(){
 
 
             // Utiliza a opeação Dilatação
-#ifdef CUDAON
+#ifdef CUDAON2
             aux = it->imgMaxBand[i];
             cv::gpu::dilate(aux, aux2, element);
 
@@ -72,7 +65,7 @@ void C1th::roda(){
             // Amostragem dos pontos
             int rows = (aux.rows / *over);
             int coluns = (aux.cols / *over);
-#ifdef CUDAON
+#ifdef CUDAON2
             cv::gpu::resize(aux, it->imgMaxBand[i], cv::Size(coluns, rows), 0, 0, cv::INTER_NEAREST);
 #else
             cv::resize(aux, it->imgMaxBand[i], cv::Size(coluns, rows), 0, 0, cv::INTER_NEAREST);

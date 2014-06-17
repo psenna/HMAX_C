@@ -62,7 +62,7 @@ void ProcessaClasses::iniciaParametros(){
     gamaS1.push_back(0.3);
 
     for(int i = 0; i < nOrientacoes; i++){
-        orientacaoS1.push_back(PI*i/nOrientacoes);
+        orientacaoS1.push_back(PI*i/(nOrientacoes+1));
     }
 
     tamanhoC1.push_back(8);

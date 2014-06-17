@@ -20,10 +20,10 @@ S1Th::S1Th(cv::Mat image, std::vector<int> *sizes, std::vector<float> *lambda, s
            std::vector<float> *gama, std::vector<float> *orientation, std::vector<Filter_T> *filters, QObject *parent):
     QThread(parent)
 {
-#ifdef CUDAON
+#ifdef CUDAON2
     this->image.upload(image);
 #else
-    this->image = image;   
+    this->image = image;
 #endif
     this->sizes = sizes;
     this->lambda = lambda;
@@ -43,63 +43,31 @@ S1Th::S1Th(cv::Mat image, std::vector<int> *sizes, std::vector<float> *lambda, s
 void S1Th::roda(){
     this->gaborFilterResult = new std::vector<S1_T>;
     // Caso os filtros tenham que ser criados.
-    if(filters == NULL){
-        // Nao e mais suportado, criar primeiro os filtros
-        /*
-        int quantidade = orientation->size() * sizes->size();
-        gaborFilterResult->resize(sizes->size());
 
-        filters = new std::vector<cv::Mat>;
-        filters->resize(quantidade);
+    /// Quando os filtros ja foram calculados e usados em outras imagens.
+    gaborFilterResult->resize(filters->size()/nOrientacoes);
+    std::vector<Filter_T>::iterator filter = filters->begin();
+    std::vector<S1_T>::iterator result = gaborFilterResult->begin();
+    std::vector<int>::iterator tamanho = sizes->begin();
 
-        std::vector<cv::Mat>::iterator filter = filters->begin();
-        std::vector<S1_T>::iterator result = gaborFilterResult->begin();
-        std::vector<int>::iterator tamanho = sizes->begin();
-        std::vector<float>::iterator lamb = lambda->begin();
-        std::vector<float>::iterator sig = sigma->begin();
-        std::vector<float>::iterator gam = gama->begin();
-
-        for(int i = 0; i < (int)sizes->size(); i++){
-            std::vector<float>::iterator orient = orientation->begin();
-            for(int j = 0; j < (int)orientation->size(); j++){
-                *filter = cv::getGaborKernel(cv::Size(*tamanho, *tamanho), *sig, *orient, *lamb, *gam, 0, CV_32F);
-                result->tamanho = *tamanho;
-                result->orientation[j] = *orient;
-                cv::filter2D(image, result->imgFiltrada[j], CV_32F, *filter);
-
-                filter++;
-                orient++;
-            }
-            lamb++;
-            sig++;
-            gam++;
-            tamanho++;
-            result++;
+    for(int i = 0; i < (int)sizes->size(); i++){
+        std::vector<float>::iterator orient = orientation->begin();
+        for(int j = 0; j < (int)orientation->size(); j++){
+            result->tamanho = *tamanho;
+            result->orientation[j] = *orient;
+#ifdef  CUDAON2
+            cv::gpu::filter2D(image, result->imgFiltrada[j], CV_32F, *filter);
+#else
+            cv::filter2D(image, result->imgFiltrada[j], CV_32F, *filter);
+#endif
+            filter++;
+            orient++;
         }
-    */
-    } else {
-        /// Quando os filtros ja foram calculados e usados em outras imagens.
-        gaborFilterResult->resize(filters->size()/nOrientacoes);
-        std::vector<cv::Mat>::iterator filter = filters->begin();
-        std::vector<S1_T>::iterator result = gaborFilterResult->begin();
-        std::vector<int>::iterator tamanho = sizes->begin();
-
-        for(int i = 0; i < (int)sizes->size(); i++){
-            std::vector<float>::iterator orient = orientation->begin();
-            for(int j = 0; j < (int)orientation->size(); j++){
-                result->tamanho = *tamanho;
-                result->orientation[j] = *orient;
-
-                cv::filter2D(image, result->imgFiltrada[j], CV_32F, *filter);
-
-                filter++;
-                orient++;
-            }
-            result++;
-            tamanho++;
-        }
+        result++;
+        tamanho++;
     }
 }
+
 
 void S1Th::criaFiltro(){
     if(filters == NULL){
@@ -116,11 +84,7 @@ void S1Th::criaFiltro(){
         for(int i = 0; i < (int)sizes->size(); i++){
             std::vector<float>::iterator orient = orientation->begin();
             for(int j = 0; j < (int)orientation->size(); j++){
-#ifdef CUDAON
-        *filter.upload(cv::getGaborKernel(cv::Size(*tamanho, *tamanho), *sig, *orient, *lamb, *gam, 0, CV_32F));
-#else
-        *filter = cv::getGaborKernel(cv::Size(*tamanho, *tamanho), *sig, *orient, *lamb, *gam, 0, CV_32F);
-#endif
+                *filter = cv::getGaborKernel(cv::Size(*tamanho, *tamanho), *sig, *orient, *lamb, *gam, 0, CV_32F);
 
                 filter++;
                 orient++;
