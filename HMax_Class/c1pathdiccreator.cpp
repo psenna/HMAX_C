@@ -54,7 +54,7 @@ void C1pathDicCreator::run(){
                         for(int l = 0; l < nOrientacoes; l++){
                             cv::Rect roi(x, y, *i, *i);
                             cv::Mat crop(j->imgMaxBand[l], roi);
-#ifdef CUDAON
+#ifdef CUDA
                             pat->patch[l].upload(crop.clone());
 #else
                             pat->patch[l] = crop.clone();

@@ -9,7 +9,7 @@ ProcessaClasses::ProcessaClasses(QObject *parent) :
 void ProcessaClasses::iniciaParametros(){
 
     for(int i = 0; i < nOrientacoes; i++){
-        orientacaoS1.push_back(PI*i/(nOrientacoes+1));
+        orientacaoS1.push_back(PI*i/nOrientacoes);
     }
 
     S1Th s1(cv::Mat(), &tamanhosS1, &lambdaS1, &sigmaS1, &gamaS1, &orientacaoS1, NULL);

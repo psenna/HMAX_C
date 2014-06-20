@@ -23,12 +23,12 @@ public:
                   std::vector<float>* gama, std::vector<float>* orientation, std::vector<Filter_T>* filters, QObject *parent = 0);
 
     std::vector<S1_T>* gaborFilterResult;
-    std::vector<Filter_T>* filters;
+    std::vector<cv::Mat>* filters;
     void roda();
     void criaFiltro();
 
 private:
-#ifdef CUDAON2
+#ifdef CUDAON
     cv::gpu::GpuMat image;
     cv::Mat imageAux;
 #else

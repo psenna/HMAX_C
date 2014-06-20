@@ -24,7 +24,6 @@ void C2th::roda(){
 #ifdef CUDAON
     cv::gpu::GpuMat aux;
     cv::gpu::GpuMat soma;
-    cv::gpu::GpuMat auxiliar;
 #else
     cv::Mat aux;
     cv::Mat soma;
@@ -39,7 +38,11 @@ void C2th::roda(){
                 for(int k = 0; k < nOrientacoes; k++){
                     aux.create(j->imgMaxBand[0].rows - i->patch[0].rows + 1, j->imgMaxBand[0].cols - i->patch[0].cols + 1, CV_8U);
 #ifdef CUDAON
+<<<<<<< HEAD
                     cv::gpu::matchTemplate(j->imgMaxBand[k], i->patch[k], aux, CV_TM_SQDIFF);
+=======
+                    cv::gpu::matchTemplate(j->imgMaxBand[k], i->patch[k], aux, CV_TM_SQDIFF_NORMED);
+>>>>>>> parent of a4f508c... C2 Cuda
                     if(!k){
                         soma = aux;
                     } else {
@@ -52,11 +55,11 @@ void C2th::roda(){
                 }
                 double min, max;
 #ifdef CUDAON
-                cv::gpu::minMax(soma, &min, &max, cv::gpu::GpuMat());
+                cv::gpu::minMaxLoc(soma, &min, &max, NULL, NULL, cv::gpu::GpuMat());
 #else
                 cv::minMaxLoc(soma, &min, &max, NULL, NULL, cv::Mat());
 #endif
-                *est = (float) cv::exp((-(min)/(500000000*sigma*sigma*alpha)));
+                *est = (float) cv::exp((-(min)/(5000000000*sigma*sigma*alpha)));
             }
         }
         est++;

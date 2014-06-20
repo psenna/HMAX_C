@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
+<<<<<<< HEAD
 <!-- Written by QtCreator 3.1.0, 2014-06-20T02:41:58. -->
+=======
+<!-- Written by QtCreator 3.1.0, 2014-06-15T04:55:32. -->
+>>>>>>> parent of a4f508c... C2 Cuda
 <qtcreator>
  <data>
   <variable>ProjectExplorer.Project.ActiveTarget</variable>
