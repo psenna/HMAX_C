@@ -15,65 +15,39 @@ C1th::C1th(std::vector<int> *tamanho, std::vector<int> *overlap, std::vector<S1_
 
 void C1th::roda(){
     this->resultado = new std::vector<C1_T>;
-    resultado->resize((int)floor(imagensS1->size()/2));
+    resultado->resize(imagensS1->size());
 
-    std::vector<int>::iterator tam = tamanho->begin();
-    std::vector<int>::iterator over = overlap->begin();
     std::vector<S1_T>::iterator imgS1 = imagensS1->begin();
-    std::vector<S1_T>::iterator imgS1_2 = imagensS1->begin();
-    imgS1_2++;
 
     for(std::vector<C1_T>::iterator it = resultado->begin(); it != resultado->end(); ++it){
-        it->tamanho = *tam;
-        it->overlap = *over;
+        it->tamanho = TAMANHOC1;
+        it->overlap = AMOSTRAGEMC1;
 
         // Cria o elemento da dilatação
         cv::Mat element = cv::getStructuringElement( cv::MORPH_RECT,
-                                                     cv::Size( *tam, *tam ),
-                                                     cv::Point( floor(*tam/2), floor(*tam/2)));
+                                                     cv::Size( TAMANHOC1, TAMANHOC1 ),
+                                                     cv::Point( floor(TAMANHOC1/2), floor(TAMANHOC1/2)));
 
         for(int i = 0; i < nOrientacoes; i++){
-#ifdef CUDAON2
-            cv::gpu::GpuMat aux  = imgS1->imgFiltrada[i];
-            cv::gpu::GpuMat aux2 = imgS1_2->imgFiltrada[i];
-#else
-            cv::Mat aux  = imgS1->imgFiltrada[i];
-            cv::Mat aux2 = imgS1_2->imgFiltrada[i];
-#endif
-
-            // Encontra o máximo ponto a ponto entre as duas imagens da faixa
-#ifdef CUDAON2
-            cv::gpu::max(aux, aux2,it->imgMaxBand[i]);
-            it->orientation[i] = imgS1->orientation[i];
-#else
-            it->imgMaxBand[i] = cv::max(aux, aux2);
-            it->orientation[i] = imgS1->orientation[i];
-#endif
-
 
             // Utiliza a opeação Dilatação
-#ifdef CUDAON2
-            aux = it->imgMaxBand[i];
-            cv::gpu::dilate(aux, aux2, element);
+#ifdef CUDAON
+            cv::gpu::dilate(imgS1->imgFiltrada[i], it->imgMaxBand[i], element);
 
 #else
-            aux = it->imgMaxBand[i];
-            cv::dilate(aux, aux2, element);
+            cv::dilate(imgS1->imgFiltrada[i], it->imgMaxBand[i], element);
 
 #endif
 
             // Amostragem dos pontos
-            int rows = (aux.rows / *over);
-            int coluns = (aux.cols / *over);
-#ifdef CUDAON2
-            cv::gpu::resize(aux, it->imgMaxBand[i], cv::Size(coluns, rows), 0, 0, cv::INTER_NEAREST);
+            int rows = ceil(it->imgMaxBand[i].rows / AMOSTRAGEMC1);
+            int coluns = ceil(it->imgMaxBand[i].cols / AMOSTRAGEMC1);
+#ifdef CUDAON
+            cv::gpu::resize(it->imgMaxBand[i], it->imgMaxBand[i], cv::Size(coluns, rows), 0, 0, cv::INTER_NEAREST);
 #else
-            cv::resize(aux, it->imgMaxBand[i], cv::Size(coluns, rows), 0, 0, cv::INTER_NEAREST);
+            cv::resize(it->imgMaxBand[i], it->imgMaxBand[i], cv::Size(coluns, rows), 0, 0, cv::INTER_NEAREST);
 #endif
         }
-        imgS1+=2;
-        imgS1_2+=2;
-        tam++;
-        over++;
+        imgS1++;
     }
 }

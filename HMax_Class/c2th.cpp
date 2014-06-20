@@ -32,14 +32,14 @@ void C2th::roda(){
 
     for(std::vector<patchC1>::iterator i = patchs->begin(); i != patchs->end(); ++i){
         for(std::vector<C1_T>::iterator j = C1output->begin(); j != C1output->end(); ++j){
-            if(i->patch[0].cols < j->imgMaxBand[0].cols && i->patch[0].rows < j->imgMaxBand[0].rows){
+            if(i->patch[0].cols < j->imgMaxBand[0].cols && i->patch[0].rows < j->imgMaxBand[0].rows && i->patch[0].rows > 0 && i->patch[0].cols > 0){
 #ifndef CUDAON
                 soma = cv::Mat::zeros(j->imgMaxBand[0].rows - i->patch[0].rows + 1, j->imgMaxBand[0].cols - i->patch[0].cols + 1, CV_32F);
 #endif
                 for(int k = 0; k < nOrientacoes; k++){
+                    aux.create(j->imgMaxBand[0].rows - i->patch[0].rows + 1, j->imgMaxBand[0].cols - i->patch[0].cols + 1, CV_8U);
 #ifdef CUDAON
-                    auxiliar.upload(j->imgMaxBand[k]);
-                    cv::gpu::matchTemplate(auxiliar, i->patch[k], aux, CV_TM_SQDIFF);
+                    cv::gpu::matchTemplate(j->imgMaxBand[k], i->patch[k], aux, CV_TM_SQDIFF);
                     if(!k){
                         soma = aux;
                     } else {
