@@ -29,12 +29,12 @@ void C2th::roda(){
             if(i->patch[0].cols < j->imgMaxBand[0].cols && i->patch[0].rows < j->imgMaxBand[0].rows){
                 soma = cv::Mat::zeros(j->imgMaxBand[0].rows - i->patch[0].rows + 1, j->imgMaxBand[0].cols - i->patch[0].cols + 1, CV_32F);
                 for(int k = 0; k < nOrientacoes; k++){
-                    cv::matchTemplate(j->imgMaxBand[k], i->patch[k], aux, CV_TM_SQDIFF_NORMED);
+                    cv::matchTemplate(j->imgMaxBand[k], i->patch[k], aux, CV_TM_SQDIFF);
                     cv::add(soma, aux, soma);
                 }
                 double min, max;
                 cv::minMaxLoc(soma, &min, &max, NULL, NULL, cv::Mat());
-                *est = (float) cv::exp((-(min)/(2.0*sigma*sigma*alpha)));
+                *est = (float) cv::exp((-(min)/(50000000000*sigma*sigma*alpha)));
             }
         }
         est++;
