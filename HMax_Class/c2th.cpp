@@ -23,8 +23,10 @@ void C2th::roda(){
     std::vector<float>::iterator est = estimulos->begin();
     cv::Mat aux;
     cv::Mat soma;
+    double menor = DBL_MAX;
 
     for(std::vector<patchC1>::iterator i = patchs->begin(); i != patchs->end(); ++i){
+        menor = DBL_MAX;
         for(std::vector<C1_T>::iterator j = C1output->begin(); j != C1output->end(); ++j){
             if(i->patch[0].cols < j->imgMaxBand[0].cols && i->patch[0].rows < j->imgMaxBand[0].rows){
                 soma = cv::Mat::zeros(j->imgMaxBand[0].rows - i->patch[0].rows + 1, j->imgMaxBand[0].cols - i->patch[0].cols + 1, CV_32F);
@@ -34,9 +36,11 @@ void C2th::roda(){
                 }
                 double min, max;
                 cv::minMaxLoc(soma, &min, &max, NULL, NULL, cv::Mat());
-                *est = (float) cv::exp((-(min)/(50000000000*sigma*sigma*alpha)));
+                if(min < menor)
+                    menor = min;
             }
         }
+        *est = (float) cv::exp((-(menor)/(50000000000*sigma*sigma*alpha)));
         est++;
     }
 }
