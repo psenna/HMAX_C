@@ -40,7 +40,7 @@ void C2th::roda(){
                     menor = min;
             }
         }
-        *est = (float) cv::exp((-(menor)/(50000000000*sigma*sigma*alpha)));
+        *est = (float) cv::exp((-(menor)/(500000000*sigma*sigma*alpha)));
         est++;
     }
 }

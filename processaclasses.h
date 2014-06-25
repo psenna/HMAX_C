@@ -10,7 +10,7 @@
 #include "estruturas.h"
 #include "processaimagem.h"
 
-#define MAXTHREADS 4
+#define MAXTHREADS 3
 
 class ProcessaClasses : public QThread
 {
