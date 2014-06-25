@@ -45,7 +45,8 @@
 #define tamMenorPat  4
 
 // Parametros C2
-#define nOrientacoesC2 nOrientacoes
+//#define nOrientacoesC2 nOrientacoes
+#define nOrientacoesC2 1
 #define AJUSTEGAUSSIANA 5000000
 
 

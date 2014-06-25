@@ -28,10 +28,16 @@ void C1th::roda(){
                                                      cv::Size( TAMANHOC1, TAMANHOC1 ),
                                                      cv::Point( floor(TAMANHOC1/2), floor(TAMANHOC1/2)));
 
+        if(nOrientacoesC2 == 1) {
+            for(int i = 1; i < nOrientacoes; i++){
+                cv::max(it->imgMaxBand[0], it->imgMaxBand[i]);
+            }
+        }
+
 #ifdef CUDAON
         cv::Mat aux;
 #endif
-        for(int i = 0; i < nOrientacoes; i++){
+        for(int i = 0; i < nOrientacoesC2; i++){
 
             // Utiliza a opeação Dilatação
 #ifdef CUDAON

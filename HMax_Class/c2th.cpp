@@ -42,7 +42,7 @@ void C2th::roda(){
 #ifndef CUDAON
                 soma = cv::Mat::zeros(j->imgMaxBand[0].rows - i->patch[0].rows + 1, j->imgMaxBand[0].cols - i->patch[0].cols + 1, CV_32F);
 #endif
-                for(int k = 0; k < nOrientacoes; k++){
+                for(int k = 0; k < nOrientacoesC2; k++){
                     aux.create(j->imgMaxBand[0].rows - i->patch[0].rows + 1, j->imgMaxBand[0].cols - i->patch[0].cols + 1, CV_32F);
 #ifdef CUDAON
                     cv::gpu::matchTemplate(j->imgMaxBand[k], i->patch[k], aux, CV_TM_SQDIFF, buf, stream);
