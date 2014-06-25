@@ -35,20 +35,28 @@ ProcessaImagem::ProcessaImagem(QString nomeImagem,
     this->patsC1 = patsC1;
 }
 
-void ProcessaImagem::run(){
+void ProcessaImagem::roda(){
     cv::Mat imagem = cv::imread(nomeImagem.toUtf8().data());
     cvtColor(imagem, imagem, CV_BGR2GRAY);
+    imagem.convertTo(imagem, CV_32F);
 
+    clock_t t = clock();
     // S1
     S1Th s1(imagem, tamanhosS1, lambdaS1, sigmaS1, gamaS1, orientacaoS1, filtrosGaborS1);
     s1.roda();
     this->respS1 = s1.gaborFilterResult;
+
+    std::cout << "S1 " << (int)(clock() - t) << "\n";
+    t = clock();
 
     // C1
     C1th c1(tamanhoC1, overlapC1, respS1);
     c1.roda();
     this->respC1 = c1.resultado;
     delete(this->respS1);
+
+    std::cout << "C1 " << (int)(clock() - t) << "\n";
+    t = clock();
 
     if(patsC1 != NULL){
         // Realizar as camadas S2 e C2
@@ -61,21 +69,18 @@ void ProcessaImagem::run(){
         std::vector<int> tamanhos;
         std::vector<int> numero;
         tamanhos.push_back(4);
-        numero.push_back(24);
+        numero.push_back(10 * 15);
         tamanhos.push_back(8);
-        numero.push_back(24);
+        numero.push_back(10 * 15);
         tamanhos.push_back(12);
-        numero.push_back(24);
+        numero.push_back(10 * 15);
         tamanhos.push_back(16);
-        numero.push_back(24);
-#ifdef  CUDAON
-        cv::Mat respC1CPU = respC1;
-        C1pathDicCreator p1(respC1CPU, &tamanhos, &numero);
-#else
+        numero.push_back(10 * 15);
+
         C1pathDicCreator p1(respC1, &tamanhos, &numero);
-#endif
         p1.start();
         p1.wait();
         patsC1 = p1.getPatchs();
     }
+    std::cout << "C2 " << (int)(clock() - t) << "\n";
 }

@@ -27,6 +27,9 @@ public:
     void roda();
 
 private:
+#ifdef CUDAON2
+    cv::gpu::Stream stream;
+#endif
     std::vector<S1_T>* imagensS1;
     std::vector<int>* tamanho;
     std::vector<int>* overlap;

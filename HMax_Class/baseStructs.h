@@ -7,6 +7,13 @@
  * Universidade Federal de Itajubá - UNIFEI
  *
  */
+//#define CUDAON
+
+#ifdef CUDAON
+#include <opencv2/gpu/gpu.hpp>
+#include <opencv2/gpu/gpumat.hpp>
+#endif
+
 
 #ifndef BASESTRUCTS_H
 #define BASESTRUCTS_H
@@ -17,7 +24,6 @@
 #include <opencv2/opencv.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/highgui/highgui.hpp>
-#include <opencv2/gpu/gpu.hpp>
 
 #define PI 3.1415926536
 
@@ -27,7 +33,7 @@
 #define SIGMAS1   4.5
 #define TAMANHOS1 11
 #define NUMBANDAS 10
-#define MENORTAMIMG 280
+#define MENORTAMIMG 140
 #define REDUCAOS1   (1/1.189207115)
 
 // Parametros C1
@@ -36,11 +42,15 @@
 
 // Parametros gerais
 #define nOrientacoes 12
-#define tamMenorPat 4
+#define tamMenorPat  4
+
+// Parametros C2
+#define nOrientacoesC2 nOrientacoes
+#define AJUSTEGAUSSIANA 5000000
 
 
 struct S1_T{
-#ifdef  CUDAON
+#ifdef  CUDAON2
     cv::gpu::GpuMat imgFiltrada[nOrientacoes];
 #else
     cv::Mat imgFiltrada[nOrientacoes];
@@ -73,11 +83,9 @@ struct S2_T{
     patchC1 patch;
 };
 
-#ifdef CUDAON
-#define Filter_T cv::gpu::GpuMat
-#else
+
 #define Filter_T cv::Mat
-#endif
+
 
 
 #endif // BASESTRUCTS_H

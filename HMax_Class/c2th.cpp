@@ -24,44 +24,50 @@ void C2th::roda(){
 #ifdef CUDAON
     cv::gpu::GpuMat aux;
     cv::gpu::GpuMat soma;
+    cv::gpu::MatchTemplateBuf buf;
+    cv::gpu::GpuMat bufMinMax;
+    cv::gpu::GpuMat aux2;
 #else
     cv::Mat aux;
     cv::Mat soma;
 #endif
 
+    double menor = DBL_MAX;
+    double min, max;
+
     for(std::vector<patchC1>::iterator i = patchs->begin(); i != patchs->end(); ++i){
+        menor = DBL_MAX;
         for(std::vector<C1_T>::iterator j = C1output->begin(); j != C1output->end(); ++j){
             if(i->patch[0].cols < j->imgMaxBand[0].cols && i->patch[0].rows < j->imgMaxBand[0].rows && i->patch[0].rows > 0 && i->patch[0].cols > 0){
 #ifndef CUDAON
                 soma = cv::Mat::zeros(j->imgMaxBand[0].rows - i->patch[0].rows + 1, j->imgMaxBand[0].cols - i->patch[0].cols + 1, CV_32F);
 #endif
                 for(int k = 0; k < nOrientacoes; k++){
-                    aux.create(j->imgMaxBand[0].rows - i->patch[0].rows + 1, j->imgMaxBand[0].cols - i->patch[0].cols + 1, CV_8U);
+                    aux.create(j->imgMaxBand[0].rows - i->patch[0].rows + 1, j->imgMaxBand[0].cols - i->patch[0].cols + 1, CV_32F);
 #ifdef CUDAON
-<<<<<<< HEAD
-                    cv::gpu::matchTemplate(j->imgMaxBand[k], i->patch[k], aux, CV_TM_SQDIFF);
-=======
-                    cv::gpu::matchTemplate(j->imgMaxBand[k], i->patch[k], aux, CV_TM_SQDIFF_NORMED);
->>>>>>> parent of a4f508c... C2 Cuda
+                    cv::gpu::matchTemplate(j->imgMaxBand[k], i->patch[k], aux, CV_TM_SQDIFF, buf, stream);
                     if(!k){
-                        soma = aux;
+                        soma.create(aux.size(), aux.type());
+                        stream.enqueueCopy(aux, soma);
                     } else {
-                        cv::gpu::add(soma, aux, soma);
+                        cv::gpu::add(soma, aux, soma, cv::gpu::GpuMat(), -1, stream);
                     }
 #else
                     cv::matchTemplate(j->imgMaxBand[k], i->patch[k], aux, CV_TM_SQDIFF);
                     cv::add(soma, aux, soma);
 #endif
                 }
-                double min, max;
 #ifdef CUDAON
-                cv::gpu::minMaxLoc(soma, &min, &max, NULL, NULL, cv::gpu::GpuMat());
+                stream.waitForCompletion();
+                cv::gpu::minMax(soma, &min, &max, cv::gpu::GpuMat(), bufMinMax);
 #else
                 cv::minMaxLoc(soma, &min, &max, NULL, NULL, cv::Mat());
 #endif
-                *est = (float) cv::exp((-(min)/(5000000000*sigma*sigma*alpha)));
+                if(min < menor)
+                    menor = min;
             }
         }
+         *est = (float) cv::exp((-(menor)/(AJUSTEGAUSSIANA*sigma*sigma*alpha)));
         est++;
     }
 }

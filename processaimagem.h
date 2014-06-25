@@ -27,7 +27,6 @@ public:
     );
 
 private:
-    void run();
 
     // Vetores de parametros S1
     std::vector<int>*     tamanhosS1;
@@ -43,6 +42,7 @@ private:
 public:
     QString nomeImagem;
     int classe;
+    void roda();
 
     // Vetores de parametros S1
     std::vector<Filter_T>* filtrosGaborS1;
