@@ -28,7 +28,7 @@ void C1th::roda(){
 
         if(nOrientacoesC2 == 1) {
             for(int i = 1; i < nOrientacoes; i++){
-                cv::max(it->imgMaxBand[0], it->imgMaxBand[i]);
+                cv::max(imgS1->imgFiltrada[0], imgS1->imgFiltrada[i]);
             }
         }
 
