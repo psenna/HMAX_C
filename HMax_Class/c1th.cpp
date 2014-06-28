@@ -20,8 +20,6 @@ void C1th::roda(){
     std::vector<S1_T>::iterator imgS1 = imagensS1->begin();
 
     for(std::vector<C1_T>::iterator it = resultado->begin(); it != resultado->end(); ++it){
-        it->tamanho = TAMANHOC1;
-        it->overlap = AMOSTRAGEMC1;
 
         // Cria o elemento da dilatação
         cv::Mat element = cv::getStructuringElement( cv::MORPH_RECT,

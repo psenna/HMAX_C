@@ -64,18 +64,15 @@ struct C1_T{
 #ifdef CUDAON
     cv::gpu::GpuMat imgMaxBand[nOrientacoes];
 #else
-    cv::Mat imgMaxBand[nOrientacoes];
+    cv::Mat imgMaxBand[nOrientacoesC2];
 #endif
-    int tamanho;
-    int overlap;
-    float orientation[nOrientacoes];
 };
 
 struct patchC1{
 #ifdef CUDAON
     cv::gpu::GpuMat patch[nOrientacoes];
 #else
-    cv::Mat patch[nOrientacoes];
+    cv::Mat patch[nOrientacoesC2];
 #endif
 };
 

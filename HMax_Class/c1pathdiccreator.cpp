@@ -51,7 +51,7 @@ void C1pathDicCreator::run(){
                         int x = fabs((int)rand() % (col - ((*i)+1)));
                         int y = fabs((int)rand() % (rows - ((*i)+1)));
                         // Percorre as orientaçoes
-                        for(int l = 0; l < nOrientacoes; l++){
+                        for(int l = 0; l < nOrientacoesC2; l++){
                             cv::Rect roi(x, y, *i, *i);
                             cv::Mat auxiliar(j->imgMaxBand[l]);
                             cv::Mat crop(auxiliar, roi);
@@ -78,11 +78,11 @@ void C1pathDicCreator::salvaPatchesArquivo(QString file){
     cv::FileStorage fs(file.toUtf8().data(), cv::FileStorage::WRITE);
     if(this->patchs != NULL){
         fs << "nPatchs" << (int) this->patchs->size();
-        fs << "nOrients" << (int) nOrientacoes;
+        fs << "nOrients" << (int) nOrientacoesC2;
         int i = 0;
         QString str;
         for(std::vector<patchC1>::iterator it = this->patchs->begin(); it != this->patchs->end(); ++it){
-            for(int j = 0; j < nOrientacoes; j++){
+            for(int j = 0; j < nOrientacoesC2; j++){
                 str = QString().sprintf("img_%d_orient_%d",i, j);
                 fs << str.toUtf8().data() << ((cv::Mat)it->patch[j]);
             }
@@ -96,7 +96,7 @@ void C1pathDicCreator::loadPatchs(QString file){
     cv::FileStorage fs(file.toUtf8().data(), cv::FileStorage::READ);
     int nPatchs = (int)fs["nPatchs"];
     int nOrients = (int)fs["nOrients"];
-    if(nOrients == nOrientacoes){
+    if(nOrients == nOrientacoesC2){
         QString str;
         delete(this->patchs);
         this->patchs = new std::vector<patchC1>;
@@ -106,7 +106,7 @@ void C1pathDicCreator::loadPatchs(QString file){
         cv::Mat auxCPU;
 #endif
         for(std::vector<patchC1>::iterator it = this->patchs->begin(); it != this->patchs->end(); ++it){
-            for(int j = 0; j < nOrientacoes; j++){
+            for(int j = 0; j < nOrientacoesC2; j++){
                 str = QString().sprintf("img_%d_orient_%d",i, j);
 #ifdef CUDAON
                 fs[str.toUtf8().data()]  >> auxCPU;
