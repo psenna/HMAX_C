@@ -34,7 +34,7 @@ public:
 
     void salvaPatchesArquivo(QString file);
     void loadPatchs(QString file);
-    void clusteriza(int k);
+    void clusteriza();
 
     void run();
 

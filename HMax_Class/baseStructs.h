@@ -39,6 +39,7 @@
 // Parametros C1
 #define TAMANHOC1 10
 #define AMOSTRAGEMC1 5
+#define KVOC    10
 
 // Parametros gerais
 #define nOrientacoes 12
