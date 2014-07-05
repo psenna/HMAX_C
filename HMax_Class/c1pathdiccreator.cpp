@@ -123,19 +123,21 @@ void C1pathDicCreator::loadPatchs(QString file){
 
 void C1pathDicCreator::clusteriza(){
     cv::Mat amostra[4];
+    cv::Mat aux;
     amostra[0] = cv::Mat::zeros(1, 16, CV_32F);
     amostra[1] = cv::Mat::zeros(1, 64, CV_32F);
     amostra[2] = cv::Mat::zeros(1, 144, CV_32F);
     amostra[3] = cv::Mat::zeros(1, 256, CV_32F);
     for(std::vector<patchC1>::iterator it = patchs->begin(); it < patchs->end(); ++it){
+        aux = cv::Mat(it->patch[0]);
         if(it->patch[0].rows == 4){
-            cv::vconcat(amostra[0], it->patch[0].reshape(0, 1),amostra[0]);
+            cv::vconcat(amostra[0], aux.reshape(0, 1),amostra[0]);
         } else if(it->patch[0].rows == 8){
-            cv::vconcat(amostra[1], it->patch[0].reshape(0, 1),amostra[1]);
+            cv::vconcat(amostra[1], aux.reshape(0, 1),amostra[1]);
         } else if(it->patch[0].rows == 12){
-            cv::vconcat(amostra[2], it->patch[0].reshape(0, 1),amostra[2]);
+            cv::vconcat(amostra[2], aux.reshape(0, 1),amostra[2]);
         } else if(it->patch[0].rows == 16){
-            cv::vconcat(amostra[3], it->patch[0].reshape(0, 1),amostra[3]);
+            cv::vconcat(amostra[3], aux.reshape(0, 1),amostra[3]);
         }
     }
     cv::TermCriteria(CV_TERMCRIT_ITER|CV_TERMCRIT_EPS, 10000, 0.0001);
@@ -145,22 +147,39 @@ void C1pathDicCreator::clusteriza(){
     cv::kmeans(amostra[1], KVOC, labels, cv::TermCriteria(CV_TERMCRIT_ITER|CV_TERMCRIT_EPS, 10000, 0.0001), 5, cv::KMEANS_PP_CENTERS, centros[1]);
     cv::kmeans(amostra[2], KVOC, labels, cv::TermCriteria(CV_TERMCRIT_ITER|CV_TERMCRIT_EPS, 10000, 0.0001), 5, cv::KMEANS_PP_CENTERS, centros[2]);
     cv::kmeans(amostra[3], KVOC, labels, cv::TermCriteria(CV_TERMCRIT_ITER|CV_TERMCRIT_EPS, 10000, 0.0001), 5, cv::KMEANS_PP_CENTERS, centros[3]);
+
     patchs->resize(KVOC*4);
     std::vector<patchC1>::iterator iterator = patchs->begin();
     for(int i = 0; i < KVOC; i++){
+#ifdef CUDAON
+        iterator->patch[0].upload(centros[0].row(i).reshape(0, 4));
+#else
         iterator->patch[0] = centros[0].row(i).reshape(0, 4);
+#endif
         iterator++;
     }
     for(int i = 0; i < KVOC; i++){
+#ifdef CUDAON
+        iterator->patch[0].upload(centros[1].row(i).reshape(0, 8));
+#else
         iterator->patch[0] = centros[1].row(i).reshape(0, 8);
+#endif
         iterator++;
     }
     for(int i = 0; i < KVOC; i++){
+#ifdef CUDAON
+        iterator->patch[0].upload(centros[2].row(i).reshape(0, 12));
+#else
         iterator->patch[0] = centros[2].row(i).reshape(0, 12);
+#endif
         iterator++;
     }
     for(int i = 0; i < KVOC; i++){
+#ifdef CUDAON
+        iterator->patch[0].upload(centros[3].row(i).reshape(0, 16));
+#else
         iterator->patch[0] = centros[3].row(i).reshape(0, 16);
+#endif
         iterator++;
     }
 
