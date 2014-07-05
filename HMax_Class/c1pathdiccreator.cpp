@@ -47,7 +47,7 @@ void C1pathDicCreator::run(){
                 for(int k = 0; k < nPatPorIMG; k++){
                     int rows = j->imgMaxBand[0].rows;
                     int col = j->imgMaxBand[0].cols;
-                    if(rows > *i && col > *i){
+                    if(rows-1 > *i && col-1 > *i){
                         int x = fabs((int)rand() % (col - ((*i)+1)));
                         int y = fabs((int)rand() % (rows - ((*i)+1)));
                         // Percorre as orientaçoes
@@ -62,7 +62,7 @@ void C1pathDicCreator::run(){
 #endif
                         }
                     } else {
-                        std::cout << "Indexing Error, no good =(\n";
+                        //std::cout << "Indexing Error, no good =(\n";
                     }
 
                     pat++;
@@ -123,10 +123,10 @@ void C1pathDicCreator::loadPatchs(QString file){
 
 void C1pathDicCreator::clusteriza(){
     cv::Mat amostra[4];
-    amostra[0].zeros(cv::Size(16,1), CV_32F);
-    amostra[1].zeros(cv::Size(64,1), CV_32F);
-    amostra[2].zeros(cv::Size(144,1), CV_32F);
-    amostra[3].zeros(cv::Size(256,1), CV_32F);
+    amostra[0] = cv::Mat::zeros(1, 16, CV_32F);
+    amostra[1] = cv::Mat::zeros(1, 64, CV_32F);
+    amostra[2] = cv::Mat::zeros(1, 144, CV_32F);
+    amostra[3] = cv::Mat::zeros(1, 256, CV_32F);
     for(std::vector<patchC1>::iterator it = patchs->begin(); it < patchs->end(); ++it){
         if(it->patch[0].rows == 4){
             cv::vconcat(amostra[0], it->patch[0].reshape(0, 1),amostra[0]);
@@ -140,11 +140,29 @@ void C1pathDicCreator::clusteriza(){
     }
     cv::TermCriteria(CV_TERMCRIT_ITER|CV_TERMCRIT_EPS, 10000, 0.0001);
     cv::Mat centros[4];
-    cv::kmeans(amostra[0], KVOC, cv::Mat(), cv::TermCriteria(CV_TERMCRIT_ITER|CV_TERMCRIT_EPS, 10000, 0.0001), 5, cv::KMEANS_PP_CENTERS, centros[0]);
-    cv::kmeans(amostra[1], KVOC, cv::Mat(), cv::TermCriteria(CV_TERMCRIT_ITER|CV_TERMCRIT_EPS, 10000, 0.0001), 5, cv::KMEANS_PP_CENTERS, centros[1]);
-    cv::kmeans(amostra[2], KVOC, cv::Mat(), cv::TermCriteria(CV_TERMCRIT_ITER|CV_TERMCRIT_EPS, 10000, 0.0001), 5, cv::KMEANS_PP_CENTERS, centros[2]);
-    cv::kmeans(amostra[3], KVOC, cv::Mat(), cv::TermCriteria(CV_TERMCRIT_ITER|CV_TERMCRIT_EPS, 10000, 0.0001), 5, cv::KMEANS_PP_CENTERS, centros[3]);
-
+    cv::Mat labels;
+    cv::kmeans(amostra[0], KVOC, labels, cv::TermCriteria(CV_TERMCRIT_ITER|CV_TERMCRIT_EPS, 10000, 0.0001), 5, cv::KMEANS_PP_CENTERS, centros[0]);
+    cv::kmeans(amostra[1], KVOC, labels, cv::TermCriteria(CV_TERMCRIT_ITER|CV_TERMCRIT_EPS, 10000, 0.0001), 5, cv::KMEANS_PP_CENTERS, centros[1]);
+    cv::kmeans(amostra[2], KVOC, labels, cv::TermCriteria(CV_TERMCRIT_ITER|CV_TERMCRIT_EPS, 10000, 0.0001), 5, cv::KMEANS_PP_CENTERS, centros[2]);
+    cv::kmeans(amostra[3], KVOC, labels, cv::TermCriteria(CV_TERMCRIT_ITER|CV_TERMCRIT_EPS, 10000, 0.0001), 5, cv::KMEANS_PP_CENTERS, centros[3]);
+    patchs->resize(KVOC*4);
+    std::vector<patchC1>::iterator iterator = patchs->begin();
+    for(int i = 0; i < KVOC; i++){
+        iterator->patch[0] = centros[0].row(i).reshape(0, 4);
+        iterator++;
+    }
+    for(int i = 0; i < KVOC; i++){
+        iterator->patch[0] = centros[1].row(i).reshape(0, 8);
+        iterator++;
+    }
+    for(int i = 0; i < KVOC; i++){
+        iterator->patch[0] = centros[2].row(i).reshape(0, 12);
+        iterator++;
+    }
+    for(int i = 0; i < KVOC; i++){
+        iterator->patch[0] = centros[3].row(i).reshape(0, 16);
+        iterator++;
+    }
 
 }
 

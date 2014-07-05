@@ -7,7 +7,7 @@
  * Universidade Federal de Itajubá - UNIFEI
  *
  */
-#define CUDAON
+//#define CUDAON
 
 #ifdef CUDAON
 #include <opencv2/gpu/gpu.hpp>
@@ -40,6 +40,7 @@
 #define TAMANHOC1 10
 #define AMOSTRAGEMC1 5
 #define KVOC    10
+#define CLUSTERIZAVOC true
 
 // Parametros gerais
 #define nOrientacoes 12
