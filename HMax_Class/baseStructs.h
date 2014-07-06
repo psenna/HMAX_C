@@ -7,7 +7,7 @@
  * Universidade Federal de Itajubá - UNIFEI
  *
  */
-#define CUDAON
+//#define CUDAON
 
 #ifdef CUDAON
 #include <opencv2/gpu/gpu.hpp>
