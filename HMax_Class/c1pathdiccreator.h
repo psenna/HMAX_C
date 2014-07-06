@@ -27,14 +27,14 @@ private:
 public:
     explicit C1pathDicCreator(QObject *parent = 0);
     explicit C1pathDicCreator(std::vector<C1_T> *imagensParaAmostra, std::vector<int> *tamanhos,
-                              std::vector<int> *nAmostras, bool clusterizacao = false, QObject *parent = 0); 
+                              std::vector<int> *nAmostras, bool clusterizacao = false, QObject *parent = 0);
 
     std::vector<patchC1>* getPatchs();
     void setPatchs(std::vector<patchC1>* pats);
 
     void salvaPatchesArquivo(QString file);
     void loadPatchs(QString file);
-    void clusteriza(int k);
+    void clusteriza();
 
     void run();
 

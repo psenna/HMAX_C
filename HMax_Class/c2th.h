@@ -32,6 +32,10 @@ private:
     float sigma;
     float alpha;
 
+#ifdef CUDAON
+    cv::gpu::Stream stream;
+#endif
+
 };
 
 #endif // C2TH_H

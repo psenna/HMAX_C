@@ -6,6 +6,8 @@
 #include "HMax_Class/c1pathdiccreator.h"
 #include "HMax_Class/c2th.h"
 
+//#define CUDAON
+
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);

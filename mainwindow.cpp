@@ -53,7 +53,7 @@ void MainWindow::on_actionSair_triggered()
 void MainWindow::on_botaoVoc_clicked()
 {
     classes.patsC1.clear();
-    for(int i = 0; i < 10; i++){
+    for(int i = 0; i < 15; i++){
         QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"),
                                                         "",
                                                         tr("Files (*.*)"));
@@ -61,6 +61,8 @@ void MainWindow::on_botaoVoc_clicked()
     }
     C1pathDicCreator c1pc;
     c1pc.setPatchs(&classes.patsC1);
+    if(CLUSTERIZAVOC)
+        c1pc.clusteriza();
     c1pc.salvaPatchesArquivo(QString("vocabulario.yml"));
 }
 

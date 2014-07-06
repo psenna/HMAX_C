@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
+<<<<<<< HEAD
 <!-- Written by QtCreator 3.1.0, 2014-06-23T22:18:13. -->
+=======
+<!-- Written by QtCreator 3.1.0, 2014-07-05T01:37:40. -->
+>>>>>>> cuda
 <qtcreator>
  <data>
   <variable>ProjectExplorer.Project.ActiveTarget</variable>
