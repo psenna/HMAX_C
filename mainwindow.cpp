@@ -53,12 +53,7 @@ void MainWindow::on_actionSair_triggered()
 void MainWindow::on_botaoVoc_clicked()
 {
     classes.patsC1.clear();
-    for(int i = 0; i < 15; i++){
-        QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"),
-                                                        "",
-                                                        tr("Files (*.*)"));
-        classes.criaVocabulario(fileName);
-    }
+    classes.criaVocabulario();
     C1pathDicCreator c1pc;
     c1pc.setPatchs(&classes.patsC1);
     if(CLUSTERIZAVOC)

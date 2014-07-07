@@ -10,7 +10,7 @@
 #include "estruturas.h"
 #include "processaimagem.h"
 
-#define MAXTHREADS 3
+#define MAXTHREADS 1
 
 class ProcessaClasses : public QThread
 {
@@ -40,7 +40,7 @@ public:
     QBasicMutex mutex;
     int nThreadRodando;
 
-    void criaVocabulario(QString imagem);
+    void criaVocabulario();
     void run();
 
 public slots:

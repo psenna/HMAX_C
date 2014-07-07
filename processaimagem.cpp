@@ -35,7 +35,7 @@ ProcessaImagem::ProcessaImagem(QString nomeImagem,
     this->patsC1 = patsC1;
 }
 
-void ProcessaImagem::run(){
+void ProcessaImagem::roda(){
     cv::Mat imagem = cv::imread(nomeImagem.toUtf8().data());
     cvtColor(imagem, imagem, CV_BGR2GRAY);
 

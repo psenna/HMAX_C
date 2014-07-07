@@ -27,19 +27,7 @@
 
 #define PI 3.1415926536
 
-// Parametros S1
-#define GAMAS1    0.3
-#define LAMBDAS1  5.6
-#define SIGMAS1   4.5
-#define TAMANHOS1 11
-#define NUMBANDAS 10
-#define MENORTAMIMG 140
-#define REDUCAOS1   (1/1.189207115)
-
-// Parametros C1
-#define TAMANHOC1 10
-#define AMOSTRAGEMC1 5
-#define KVOC    10
+#define KVOC    500
 #define CLUSTERIZAVOC true
 
 // Parametros gerais
