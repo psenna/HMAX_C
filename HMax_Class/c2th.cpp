@@ -67,12 +67,8 @@ void C2th::roda(){
                     menor = min;
             }
         }
-<<<<<<< HEAD
-         *est = (float) cv::exp((-(menor)/(AJUSTEGAUSSIANA*sigma*sigma*alpha)));
-=======
         menor /= (i->patch[0].rows * i->patch[0].cols * nOrientacoesC2);
         *est = (float) cv::exp((-(menor)/(AJUSTEGAUSSIANA*sigma*sigma*alpha)));
->>>>>>> FETCH_HEAD
         est++;
     }
 }
