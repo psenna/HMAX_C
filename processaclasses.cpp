@@ -19,6 +19,10 @@ void ProcessaClasses::iniciaParametros(){
     tamanhosS1.push_back(25);
     tamanhosS1.push_back(27);
     tamanhosS1.push_back(29);
+    tamanhosS1.push_back(31);
+    tamanhosS1.push_back(33);
+    tamanhosS1.push_back(35);
+    tamanhosS1.push_back(37);
 
     lambdaS1.push_back(2.8);
     lambdaS1.push_back(3.6);
@@ -32,6 +36,10 @@ void ProcessaClasses::iniciaParametros(){
     lambdaS1.push_back(11.3);
     lambdaS1.push_back(12.3);
     lambdaS1.push_back(13.4);
+    lambdaS1.push_back(14.6);
+    lambdaS1.push_back(15.8);
+    lambdaS1.push_back(17);
+    lambdaS1.push_back(18.2);
 
 
     sigmaS1.push_back(3.5);
@@ -46,6 +54,10 @@ void ProcessaClasses::iniciaParametros(){
     sigmaS1.push_back(14.1);
     sigmaS1.push_back(15.4);
     sigmaS1.push_back(16.8);
+    sigmaS1.push_back(18.2);
+    sigmaS1.push_back(19.7);
+    sigmaS1.push_back(21.2);
+    sigmaS1.push_back(22.8);
 
 
     gamaS1.push_back(0.3);
@@ -60,6 +72,11 @@ void ProcessaClasses::iniciaParametros(){
     gamaS1.push_back(0.3);
     gamaS1.push_back(0.3);
     gamaS1.push_back(0.3);
+    gamaS1.push_back(0.3);
+    gamaS1.push_back(0.3);
+    gamaS1.push_back(0.3);
+    gamaS1.push_back(0.3);
+
     for(int i = 0; i < nOrientacoes; i++){
         orientacaoS1.push_back(PI*i/nOrientacoes);
     }
@@ -70,6 +87,8 @@ void ProcessaClasses::iniciaParametros(){
     tamanhoC1.push_back(14);
     tamanhoC1.push_back(16);
     tamanhoC1.push_back(18);
+    tamanhoC1.push_back(20);
+    tamanhoC1.push_back(22);
 
     overlapC1.push_back(4);
     overlapC1.push_back(5);
@@ -77,6 +96,8 @@ void ProcessaClasses::iniciaParametros(){
     overlapC1.push_back(7);
     overlapC1.push_back(8);
     overlapC1.push_back(9);
+    overlapC1.push_back(10);
+    overlapC1.push_back(11);
 
     S1Th s1(cv::Mat(), &tamanhosS1, &lambdaS1, &sigmaS1, &gamaS1, &orientacaoS1, NULL);
     s1.criaFiltro();

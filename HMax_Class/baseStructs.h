@@ -14,7 +14,6 @@
 #include <opencv2/gpu/gpumat.hpp>
 #endif
 
-
 #ifndef BASESTRUCTS_H
 #define BASESTRUCTS_H
 
@@ -33,11 +32,14 @@
 // Parametros gerais
 #define nOrientacoes 12
 #define tamMenorPat  4
+#define TAMMINIMOIMG 240
 
 // Parametros C2
 //#define nOrientacoesC2 nOrientacoes
 #define nOrientacoesC2 1
-#define AJUSTEGAUSSIANA 5000000
+// De acordo com o tamanho da amostra
+#define AJUSTEGAUSSIANA 500000000
+
 
 
 struct S1_T{
