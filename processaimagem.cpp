@@ -61,13 +61,13 @@ void ProcessaImagem::roda(){
         std::vector<int> tamanhos;
         std::vector<int> numero;
         tamanhos.push_back(4);
-        numero.push_back(24*4);
+        numero.push_back(8 * 100);
         tamanhos.push_back(8);
-        numero.push_back(24*4);
+        numero.push_back(8 * 100);
         tamanhos.push_back(12);
-        numero.push_back(24*4);
+        numero.push_back(8 * 100);
         tamanhos.push_back(16);
-        numero.push_back(24*4);
+        numero.push_back(8 * 100);
         C1pathDicCreator p1(respC1, &tamanhos, &numero);
         p1.start();
         p1.wait();
