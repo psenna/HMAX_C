@@ -26,7 +26,9 @@
 
 #define PI 3.1415926536
 
-#define KVOC    500
+
+// *********************  Param. HMAX  ************************
+#define KVOC    5
 #define CLUSTERIZAVOC true
 
 // Parametros gerais
@@ -40,6 +42,9 @@
 // De acordo com o tamanho da amostra
 #define AJUSTEGAUSSIANA 500000000
 
+
+// *********************   PARAM. BOF ************************
+#define KVOCBOF 100
 
 
 struct S1_T{

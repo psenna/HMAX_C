@@ -28,8 +28,7 @@ SOURCES += main.cpp\
     adicionaclasse.cpp \
     processaclasses.cpp \
     mainwindow.cpp \
-    BOF/bof.cpp \
-    BOF/criavocabulario.cpp
+    BOF/bof.cpp
 
 HEADERS  += mainwindow.h \
     HMax_Class/s1th.h \
@@ -41,8 +40,7 @@ HEADERS  += mainwindow.h \
     adicionaclasse.h \
     estruturas.h \
     processaclasses.h \
-    BOF/bof.h \
-    BOF/criavocabulario.h
+    BOF/bof.h
 
 FORMS    += mainwindow.ui \
     adicionaclasse.ui

@@ -9,6 +9,7 @@
 #include <QBasicMutex>
 #include "estruturas.h"
 #include "processaimagem.h"
+#include "BOF/bof.h"
 
 #define MAXTHREADS 1
 
@@ -37,14 +38,15 @@ public:
     std::vector<patchC1> patsC1;
 
     std::vector<ProcessaImagem*> threadsImagens;
-    QBasicMutex mutex;
-    int nThreadRodando;
+
+    //Parametros BOF
+    cv::Mat vocabularioBOF;
 
     void criaVocabulario();
+    void criaVocabularioBOF();
     void run();
 
 public slots:
-    void acabouThread();
 
 signals:
     void acabouProcessarImagem();

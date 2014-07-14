@@ -25,26 +25,6 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_botaoNovClas_clicked()
-{
-    QString directory = QFileDialog::getExistingDirectory(this, tr("Pasta onde esta a classe"),
-                                                          "",
-                                                          QFileDialog::ShowDirsOnly
-                                                          | QFileDialog::DontResolveSymlinks);
-    classeImagem classe;
-    classe.caminho = directory;
-    classe.nome = ui->lineEdit->text();
-    ui->lineEdit->setText("");
-    classe.numImgs = ui->spinBox->value();
-    classe.id = classes.classesImagens.size();
-    classes.classesImagens.push_back(classe);
-
-    ui->tableWidget->insertRow(classe.id);
-    ui->tableWidget->setItem(classe.id, 0, new QTableWidgetItem(classe.nome));
-    ui->tableWidget->setItem(classe.id, 1, new QTableWidgetItem(QString().sprintf("%d",classe.numImgs)));
-
-}
-
 void MainWindow::on_actionSair_triggered()
 {
     qApp->exit(0);
@@ -138,4 +118,9 @@ void MainWindow::on_pushButton_clicked()
         ui->tableWidget->setItem(classe.id, 0, new QTableWidgetItem(classe.nome));
         ui->tableWidget->setItem(classe.id, 1, new QTableWidgetItem(QString().sprintf("%d",classe.numImgs)));
     }
+}
+
+void MainWindow::on_pushButton_2_clicked()
+{
+    this->classes.criaVocabularioBOF();
 }

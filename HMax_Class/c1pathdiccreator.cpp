@@ -128,6 +128,7 @@ void C1pathDicCreator::clusteriza(){
     amostra[1] = cv::Mat::zeros(1, 64, CV_32F);
     amostra[2] = cv::Mat::zeros(1, 144, CV_32F);
     amostra[3] = cv::Mat::zeros(1, 256, CV_32F);
+    std::cout << "inicio\n";
     for(std::vector<patchC1>::iterator it = patchs->begin(); it < patchs->end(); ++it){
         aux = cv::Mat(it->patch[0]);
         if(it->patch[0].rows == 4){
@@ -140,14 +141,13 @@ void C1pathDicCreator::clusteriza(){
             cv::vconcat(amostra[3], aux.reshape(0, 1),amostra[3]);
         }
     }
-    cv::TermCriteria(CV_TERMCRIT_ITER|CV_TERMCRIT_EPS, 10000, 0.0001);
+
     cv::Mat centros[4];
     cv::Mat labels;
     cv::kmeans(amostra[0], KVOC, labels, cv::TermCriteria(CV_TERMCRIT_ITER|CV_TERMCRIT_EPS, 10000, 0.0001), 5, cv::KMEANS_PP_CENTERS, centros[0]);
     cv::kmeans(amostra[1], KVOC, labels, cv::TermCriteria(CV_TERMCRIT_ITER|CV_TERMCRIT_EPS, 10000, 0.0001), 5, cv::KMEANS_PP_CENTERS, centros[1]);
     cv::kmeans(amostra[2], KVOC, labels, cv::TermCriteria(CV_TERMCRIT_ITER|CV_TERMCRIT_EPS, 10000, 0.0001), 5, cv::KMEANS_PP_CENTERS, centros[2]);
     cv::kmeans(amostra[3], KVOC, labels, cv::TermCriteria(CV_TERMCRIT_ITER|CV_TERMCRIT_EPS, 10000, 0.0001), 5, cv::KMEANS_PP_CENTERS, centros[3]);
-
     patchs->resize(KVOC*4);
     std::vector<patchC1>::iterator iterator = patchs->begin();
     for(int i = 0; i < KVOC; i++){

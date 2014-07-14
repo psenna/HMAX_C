@@ -27,7 +27,6 @@ public:
 
 private slots:
 
-    void on_botaoNovClas_clicked();
     void on_actionSair_triggered();
 
     void on_botaoVoc_clicked();
@@ -37,6 +36,8 @@ private slots:
     void on_botaoRodar_clicked();
 
     void on_pushButton_clicked();
+
+    void on_pushButton_2_clicked();
 
 public slots:
     void terminouDeProcessarImagens();

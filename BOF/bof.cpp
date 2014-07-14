@@ -40,3 +40,34 @@ void Bof::roda(){
     cv::divide(total[0], histograma, histograma);
 
 }
+
+cv::Mat Bof::extraiCaract(){
+    cv::Mat img = cv::imread(this->nomeImg.toUtf8().data(), 1);
+    cv::cvtColor(img, img, CV_BGR2GRAY);
+
+    // Encontrar pontos de interesse.
+    std::vector<cv::KeyPoint> pontosDeInteresse;
+    cv::DenseFeatureDetector detector;
+    detector.detect(img, pontosDeInteresse);
+
+    // Descrever esses pontos.
+    cv::Mat descritores;
+    cv::FREAK descritor;
+    descritor.compute(img, pontosDeInteresse, descritores);
+    return descritores;
+}
+
+void Bof::saveVoc(){
+    cv::FileStorage fs("VocabularioBOF.yml", cv::FileStorage::WRITE);
+    if(this->vocabulario != NULL){
+        fs << "Vocabulario" << (cv::Mat) *vocabulario;
+    }
+    fs.release();
+}
+
+cv::Mat Bof::loadVoc(QString nomeArq){
+    cv::FileStorage fs(nomeArq.toUtf8().data(), cv::FileStorage::READ);
+    cv::Mat voc;
+    fs["Vocabulario"] >> voc;
+    return voc;
+}

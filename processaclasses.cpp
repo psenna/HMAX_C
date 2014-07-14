@@ -103,14 +103,6 @@ void ProcessaClasses::iniciaParametros(){
     s1.criaFiltro();
     filtrosGaborS1.insert(filtrosGaborS1.end(), s1.filters->begin(), s1.filters->end());
     delete(s1.filters);
-    nThreadRodando = 0;
-
-#ifdef __APPLE__
-    this->mutex.lock();
-#endif
-
-    this->mutex.unlock();
-
 }
 
 void ProcessaClasses::criaVocabulario(){
@@ -134,6 +126,28 @@ void ProcessaClasses::criaVocabulario(){
             delete(img);
         }
     }
+}
+void ProcessaClasses::criaVocabularioBOF(){
+    for(std::vector<classeImagem>::iterator it = this->classesImagens.begin(); it != this->classesImagens.end(); ++it){
+        srand(time(NULL));
+        QStringList nameFilter("*.jpg");
+        QDir directory(it->caminho);
+        QStringList imageFiles = directory.entryList(nameFilter);
+        this->vocabularioBOF = cv::Mat();
+        for(int i = 0; imageFiles.size() && i < it->numImgs; i++){
+            int imgSorteada = rand() % imageFiles.size();
+            QString arquivo = imageFiles.at(imgSorteada);
+            imageFiles.removeAt(imgSorteada);
+            arquivo = it->caminho + "/" + arquivo;
+            Bof bof(arquivo, NULL);
+            if(this->vocabularioBOF.rows == 0){
+                this->vocabularioBOF = bof.extraiCaract();
+            } else {
+                cv::vconcat(this->vocabularioBOF, bof.extraiCaract(), this->vocabularioBOF);
+            }
+        }
+    }
+    cv::kmeans(this->vocabularioBOF, KVOC, cv::Mat(), cv::TermCriteria(CV_TERMCRIT_ITER|CV_TERMCRIT_EPS, 10000, 0.0001), 5, cv::KMEANS_PP_CENTERS, this->vocabularioBOF);
 }
 
 void ProcessaClasses::run(){
@@ -164,13 +178,6 @@ void ProcessaClasses::run(){
     }
 
     emit acabouDeProcessarAsImagens();
-}
-
-void ProcessaClasses::acabouThread(){
-    mutex.lock();
-    nThreadRodando--;
-    mutex.unlock();
-    emit acabouProcessarImagem();
 }
 
 
