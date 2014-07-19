@@ -46,11 +46,12 @@
 
 // *********************   PARAM. BOF ************************
 #define USABOF true
-#define KVOCBOF 1000
-//#define FREAK_ON
+#define KVOCBOF 500
+#define FREAK_ON
+//#define GOODDETECTOR
 
-//#define DENSEDETECTOR
-#define GOODDETECTOR
+#define AJUSTEGAUSSIANABOF 500000000
+#define BOFMAX
 
 struct S1_T{
 #ifdef  CUDAON2

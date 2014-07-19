@@ -34,20 +34,35 @@ void Bof::roda(){
     descritor.compute(img, pontosDeInteresse, descritores);
 
     // Classificar os pontos de interesse em uma palavra visual.
+
+#ifdef BOFMAX
+    histograma = cv::Mat().zeros(1, vocabulario->rows*2, CV_32F);
+    cv::Mat minimos = cv::Mat().zeros(1, vocabulario->rows, CV_32F);
+    minimos.setTo(DBL_MAX);
+#else
     histograma = cv::Mat().zeros(1, vocabulario->rows, CV_32F);
+#endif
 
     for(int i = 0; i < descritores.rows; i++){
         cv::Mat aux = descritores.row(i).clone();
         cv::matchTemplate(*vocabulario, aux, aux, CV_TM_SQDIFF);
+#ifdef BOFMAX
+        cv::min(minimos, aux);
+#endif
         cv::Point loc;
         cv::minMaxLoc(aux, NULL, NULL, &loc, NULL);
         histograma.at<float>(0,loc.y) += 1;
     }
 
     // Normalizando o histograma
-    for(int i = 0; i < histograma.cols; i++){
+    for(int i = 0; i < vocabulario->rows; i++){
         histograma.at<float>(0, i) /= descritores.rows;
     }
+#ifdef BOFMAX
+    for(int i = vocabulario->rows; i < histograma.cols; i++){
+        histograma.at<float>(0,i) = exp(-1 * minimos.at<float>(0,i-vocabulario->rows)/AJUSTEGAUSSIANABOF);
+    }
+#endif
 }
 
 cv::Mat Bof::extraiCaract(){
@@ -58,7 +73,7 @@ cv::Mat Bof::extraiCaract(){
     std::vector<cv::KeyPoint> pontosDeInteresse;
 #ifdef GOODDETECTOR
     cv::GoodFeaturesToTrackDetector detector;
-#elif  DENSEDETECTOR
+#else
     cv::DenseFeatureDetector detector;
 #endif
     detector.detect(img, pontosDeInteresse);
