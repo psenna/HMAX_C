@@ -5,9 +5,14 @@ Bof::Bof(QObject *parent) :
 {
 }
 
-Bof::Bof(QString nomeImg, cv::Mat *vocabulario){
+Bof::Bof(QString nomeImg, cv::Mat *vocabulario, int classe){
     this->nomeImg = nomeImg;
     this->vocabulario = vocabulario;
+    this->classe = classe;
+}
+
+cv::Mat Bof::getHistograma(){
+    return this->histograma;
 }
 
 void Bof::roda(){
@@ -21,24 +26,28 @@ void Bof::roda(){
 
     // Descrever esses pontos.
     cv::Mat descritores;
+#ifdef FREAK_ON
     cv::FREAK descritor;
+#else
+    cv::ORB descritor;
+#endif
     descritor.compute(img, pontosDeInteresse, descritores);
 
     // Classificar os pontos de interesse em uma palavra visual.
-    cv::Mat histograma = cv::Mat().zeros(1, vocabulario->rows, CV_32F);
+    histograma = cv::Mat().zeros(1, vocabulario->rows, CV_32F);
 
     for(int i = 0; i < descritores.rows; i++){
-        cv::Mat aux = descritores.row(i);
+        cv::Mat aux = descritores.row(i).clone();
         cv::matchTemplate(*vocabulario, aux, aux, CV_TM_SQDIFF);
         cv::Point loc;
         cv::minMaxLoc(aux, NULL, NULL, &loc, NULL);
-        histograma.at<float>(0,loc.x)++;
+        histograma.at<float>(0,loc.y) += 1;
     }
 
     // Normalizando o histograma
-    cv::Scalar total = cv::sum(histograma);
-    cv::divide(total[0], histograma, histograma);
-
+    for(int i = 0; i < histograma.cols; i++){
+        histograma.at<float>(0, i) /= descritores.rows;
+    }
 }
 
 cv::Mat Bof::extraiCaract(){
@@ -47,12 +56,20 @@ cv::Mat Bof::extraiCaract(){
 
     // Encontrar pontos de interesse.
     std::vector<cv::KeyPoint> pontosDeInteresse;
+#ifdef GOODDETECTOR
+    cv::GoodFeaturesToTrackDetector detector;
+#elif  DENSEDETECTOR
     cv::DenseFeatureDetector detector;
+#endif
     detector.detect(img, pontosDeInteresse);
 
     // Descrever esses pontos.
     cv::Mat descritores;
+#ifdef FREAK_ON
     cv::FREAK descritor;
+#else
+    cv::ORB descritor;
+#endif
     descritor.compute(img, pontosDeInteresse, descritores);
     return descritores;
 }

@@ -64,21 +64,37 @@ void MainWindow::on_botaoRodar_clicked()
 }
 
 void MainWindow::terminouDeProcessarImagens(){
-    std::ofstream arquivo(arqSaidaSVM.toUtf8().data());
-    for(std::vector<ProcessaImagem*>::iterator it = classes.threadsImagens.begin(); it != classes.threadsImagens.end(); ++it){
-        std::vector<float>* respostarC2 = (*it)->respC2;
-        int i = 1;
-        arquivo << (*it)->classe << " ";
-        for(std::vector<float>::iterator jt = respostarC2->begin(); jt != respostarC2->end(); ++jt){
-            arquivo << i << ":" << (float)(*jt) << " ";
-            i++;
+    if(USAHMAX){
+        QString saida = arqSaidaSVM + "Hmax.svm";
+        std::ofstream arquivo(saida.toUtf8().data());
+        for(std::vector<ProcessaImagem*>::iterator it = classes.threadsImagens.begin(); it != classes.threadsImagens.end(); ++it){
+            std::vector<float>* respostarC2 = (*it)->respC2;
+            int i = 1;
+            arquivo << (*it)->classe << " ";
+            for(std::vector<float>::iterator jt = respostarC2->begin(); jt != respostarC2->end(); ++jt){
+                arquivo << i << ":" << (float)(*jt) << " ";
+                i++;
+            }
+            arquivo << "\n";
+            delete ((*it)->respC2);
+            delete((*it));
         }
-        arquivo << "\n";
-        delete ((*it)->respC2);
-        delete((*it));
     }
-    std::cout << "Arquivo " << arqSaidaSVM.toUtf8().data() << " gravado com sucesso.\n";
-    arquivo.close();
+
+    if(USABOF){
+        QString saida = arqSaidaSVM + "BOF.svm";
+        std::ofstream arquivo(saida.toUtf8().data());
+        for(std::vector<Bof*>::iterator it = classes.thBof.begin(); it != classes.thBof.end(); ++it){
+            arquivo << (*it)->classe << " ";
+            cv::Mat aux = (*it)->getHistograma();
+            for(int i = 0; i < aux.cols; i++){
+                arquivo << i << ":" << (float)(aux.at<float>(i)) << " ";
+            }
+            arquivo << "\n";
+        }
+        std::cout << "Arquivo " << arqSaidaSVM.toUtf8().data() << " gravado com sucesso.\n";
+        arquivo.close();
+    }
     ui->botaoRodar->setEnabled(true);
     ui->progressBar->setMaximum(1);
     ui->progressBar->setValue(1);
@@ -123,4 +139,13 @@ void MainWindow::on_pushButton_clicked()
 void MainWindow::on_pushButton_2_clicked()
 {
     this->classes.criaVocabularioBOF();
+}
+
+void MainWindow::on_pushButton_5_clicked()
+{
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"),
+                                                    "",
+                                                    tr("Files (*.yml)"));
+    Bof bof(QString(), NULL);
+    classes.vocabularioBOF = bof.loadVoc(fileName);
 }

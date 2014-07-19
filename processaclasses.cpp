@@ -127,27 +127,36 @@ void ProcessaClasses::criaVocabulario(){
         }
     }
 }
+
 void ProcessaClasses::criaVocabularioBOF(){
+#ifdef FREAK_ON
+    this->vocabularioBOF = cv::Mat().zeros(1,64,CV_8U);
+#else
+    this->vocabularioBOF = cv::Mat().zeros(1,32,CV_8U);
+#endif
     for(std::vector<classeImagem>::iterator it = this->classesImagens.begin(); it != this->classesImagens.end(); ++it){
         srand(time(NULL));
         QStringList nameFilter("*.jpg");
         QDir directory(it->caminho);
         QStringList imageFiles = directory.entryList(nameFilter);
-        this->vocabularioBOF = cv::Mat();
         for(int i = 0; imageFiles.size() && i < it->numImgs; i++){
             int imgSorteada = rand() % imageFiles.size();
             QString arquivo = imageFiles.at(imgSorteada);
             imageFiles.removeAt(imgSorteada);
             arquivo = it->caminho + "/" + arquivo;
             Bof bof(arquivo, NULL);
-            if(this->vocabularioBOF.rows == 0){
-                this->vocabularioBOF = bof.extraiCaract();
-            } else {
-                cv::vconcat(this->vocabularioBOF, bof.extraiCaract(), this->vocabularioBOF);
-            }
+            cv::Mat aux =  bof.extraiCaract();
+            cv::vconcat(this->vocabularioBOF, aux, this->vocabularioBOF);
+
         }
     }
-    cv::kmeans(this->vocabularioBOF, KVOC, cv::Mat(), cv::TermCriteria(CV_TERMCRIT_ITER|CV_TERMCRIT_EPS, 10000, 0.0001), 5, cv::KMEANS_PP_CENTERS, this->vocabularioBOF);
+    cv::Mat aux;
+    cv::Mat labels;
+    vocabularioBOF.convertTo(aux,CV_32F);
+    cv::kmeans(aux, KVOCBOF, labels, cv::TermCriteria(CV_TERMCRIT_ITER|CV_TERMCRIT_EPS, 10000, 0.0001), 5, cv::KMEANS_PP_CENTERS, vocabularioBOF);
+    vocabularioBOF.convertTo(vocabularioBOF, CV_8U);
+    Bof bof(QString(), &this->vocabularioBOF);
+    bof.saveVoc();
 }
 
 void ProcessaClasses::run(){
@@ -168,11 +177,20 @@ void ProcessaClasses::run(){
             QString arquivo = imageFiles.at(imgSorteada);
             imageFiles.removeAt(imgSorteada);
             arquivo = it->caminho + "/" + arquivo;
-            ProcessaImagem *img = new ProcessaImagem(arquivo, it->id, &filtrosGaborS1, &tamanhosS1,
-                                                     &lambdaS1, &sigmaS1, &gamaS1, &orientacaoS1,
-                                                     &tamanhoC1, &overlapC1, &patsC1);
-            this->threadsImagens.push_back(img);
-            img->roda();
+            if(USAHMAX){
+                ProcessaImagem *img = new ProcessaImagem(arquivo, it->id, &filtrosGaborS1, &tamanhosS1,
+                                                         &lambdaS1, &sigmaS1, &gamaS1, &orientacaoS1,
+                                                         &tamanhoC1, &overlapC1, &patsC1);
+                this->threadsImagens.push_back(img);
+                img->roda();
+            }
+
+            if(USABOF){
+                Bof *bof = new Bof(arquivo, &vocabularioBOF, it->id);
+                thBof.push_back(bof);
+                bof->roda();
+            }
+
             emit acabouProcessarImagem();
         }
     }

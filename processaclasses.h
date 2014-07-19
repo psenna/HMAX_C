@@ -38,6 +38,7 @@ public:
     std::vector<patchC1> patsC1;
 
     std::vector<ProcessaImagem*> threadsImagens;
+    std::vector<Bof*> thBof;
 
     //Parametros BOF
     cv::Mat vocabularioBOF;

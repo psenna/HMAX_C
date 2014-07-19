@@ -28,7 +28,8 @@
 
 
 // *********************  Param. HMAX  ************************
-#define KVOC    5
+#define USAHMAX false
+#define KVOC    1000
 #define CLUSTERIZAVOC true
 
 // Parametros gerais
@@ -44,8 +45,12 @@
 
 
 // *********************   PARAM. BOF ************************
-#define KVOCBOF 100
+#define USABOF true
+#define KVOCBOF 1000
+//#define FREAK_ON
 
+//#define DENSEDETECTOR
+#define GOODDETECTOR
 
 struct S1_T{
 #ifdef  CUDAON2
