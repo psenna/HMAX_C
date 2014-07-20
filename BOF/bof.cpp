@@ -47,7 +47,7 @@ void Bof::roda(){
         cv::Mat aux = descritores.row(i).clone();
         cv::matchTemplate(*vocabulario, aux, aux, CV_TM_SQDIFF);
 #ifdef BOFMAX
-        cv::min(minimos, aux);
+        minimos = cv::min(minimos, aux);
 #endif
         cv::Point loc;
         cv::minMaxLoc(aux, NULL, NULL, &loc, NULL);
@@ -56,11 +56,13 @@ void Bof::roda(){
 
     // Normalizando o histograma
     for(int i = 0; i < vocabulario->rows; i++){
-        histograma.at<float>(0, i) /= descritores.rows;
+        histograma.at<float>(0, i) /= (descritores.rows);
+        histograma.at<float>(0, i) *= AJUSTEBOFNORMALIZA;
     }
 #ifdef BOFMAX
     for(int i = vocabulario->rows; i < histograma.cols; i++){
-        histograma.at<float>(0,i) = exp(-1 * minimos.at<float>(0,i-vocabulario->rows)/AJUSTEGAUSSIANABOF);
+        std::cout << minimos.at<float>(0,i-vocabulario->rows) << "\n";
+        histograma.at<float>(0,i) = (float)exp(-1.0 * minimos.at<float>(0,i-vocabulario->rows)/AJUSTEGAUSSIANABOF);
     }
 #endif
 }
