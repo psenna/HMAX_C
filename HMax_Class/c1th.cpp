@@ -26,8 +26,8 @@ void C1th::roda(){
     for(std::vector<C1_T>::iterator it = resultado->begin(); it != resultado->end(); ++it){
         if(nOrientacoesC2 == 1){
             for(int i = 1; i < nOrientacoes; i++){
-                cv::max(imgS1->imgFiltrada[0], imgS1->imgFiltrada[i]);
-                cv::max(imgS1_2->imgFiltrada[0], imgS1_2->imgFiltrada[i]);
+                imgS1->imgFiltrada[0] = cv::max(imgS1->imgFiltrada[0], imgS1->imgFiltrada[i]);
+                imgS1_2->imgFiltrada[0] = cv::max(imgS1_2->imgFiltrada[0], imgS1_2->imgFiltrada[i]);
             }
         }
         for(int i = 0; i < nOrientacoesC2; i++){

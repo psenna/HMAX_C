@@ -37,7 +37,7 @@ void Bof::roda(){
 
 #ifdef BOFMAX
     histograma = cv::Mat().zeros(1, vocabulario->rows*2, CV_32F);
-    cv::Mat minimos = cv::Mat().zeros(1, vocabulario->rows, CV_32F);
+    cv::Mat minimos = cv::Mat().zeros(vocabulario->rows, 1, CV_32F);
     minimos.setTo(DBL_MAX);
 #else
     histograma = cv::Mat().zeros(1, vocabulario->rows, CV_32F);
@@ -61,8 +61,7 @@ void Bof::roda(){
     }
 #ifdef BOFMAX
     for(int i = vocabulario->rows; i < histograma.cols; i++){
-        std::cout << minimos.at<float>(0,i-vocabulario->rows) << "\n";
-        histograma.at<float>(0,i) = (float)exp(-1.0 * minimos.at<float>(0,i-vocabulario->rows)/AJUSTEGAUSSIANABOF);
+        histograma.at<float>(0,i) = (float)exp(-1.0 * minimos.at<float>(i-vocabulario->rows, 0)/AJUSTEGAUSSIANABOF);
     }
 #endif
 }
