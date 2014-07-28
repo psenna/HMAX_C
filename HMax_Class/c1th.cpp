@@ -35,10 +35,9 @@ void C1th::roda(){
             cv::Mat aux2 = imgS1_2->imgFiltrada[i];
 
             // Encontra o máximo ponto a ponto entre as duas imagens da faixa
-            it->imgMaxBand[i] = cv::max(aux, aux2);
+            aux = cv::max(aux, aux2);
 
             // Utiliza a opeação Dilatação
-            aux = it->imgMaxBand[i];
             cv::Mat element = cv::getStructuringElement( cv::MORPH_RECT,
                                                          cv::Size( *tam, *tam ),
                                                          cv::Point( floor(*tam/2), floor(*tam/2)));
