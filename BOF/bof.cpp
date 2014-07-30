@@ -63,6 +63,10 @@ void Bof::roda(){
     for(int i = vocabulario->rows; i < histograma.cols; i++){
         histograma.at<float>(0,i) = (float)exp(-1.0 * minimos.at<float>(i-vocabulario->rows, 0)/AJUSTEGAUSSIANABOF);
     }
+#ifdef BMAX
+    histograma = cv::Mat(histograma, cv::Rect(vocabulario->rows, 0,vocabulario->rows, 1)).clone();
+#endif
+
 #endif
 }
 
