@@ -50,7 +50,7 @@ INCLUDEPATH += /usr/local/include/opencv2/
 INCLUDEPATH += /usr/local/include/opencv/
 DEPENDPATH += /usr/local/lib
 
-LIBS += -L/usr/local/lib -lopencv_core -lopencv_highgui -lopencv_imgproc -lopencv_features2d -lopencv_calib3d -lopencv_gpu
+LIBS += -L/usr/local/lib -lopencv_core -lopencv_highgui -lopencv_imgproc -lopencv_features2d -lopencv_calib3d -lopencv_gpu -lopencv_nonfree
 
 OTHER_FILES += \
     LICENSE.txt \

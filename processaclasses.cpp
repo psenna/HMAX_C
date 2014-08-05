@@ -129,11 +129,14 @@ void ProcessaClasses::criaVocabulario(){
 }
 
 void ProcessaClasses::criaVocabularioBOF(){
-#ifdef FREAK_ON
-    this->vocabularioBOF = cv::Mat().zeros(1,64,CV_8U);
-#else
-    this->vocabularioBOF = cv::Mat().zeros(1,32,CV_8U);
-#endif
+    if(tipoDescritor == FREAK){
+        this->vocabularioBOF = cv::Mat().zeros(1,64,CV_8U);
+    } else if(tipoDescritor == ORB){
+        this->vocabularioBOF = cv::Mat().zeros(1,32,CV_8U);
+    } else {
+        this->vocabularioBOF = cv::Mat().zeros(1,128,CV_32F);
+    }
+
     for(std::vector<classeImagem>::iterator it = this->classesImagens.begin(); it != this->classesImagens.end(); ++it){
         srand(time(NULL));
         QStringList nameFilter("*.jpg");
@@ -152,9 +155,16 @@ void ProcessaClasses::criaVocabularioBOF(){
     }
     cv::Mat aux;
     cv::Mat labels;
-    vocabularioBOF.convertTo(aux,CV_32F);
+    if(vocabularioBOF.type() != CV_32F){
+        vocabularioBOF.convertTo(aux,CV_32F);
+    } else {
+        aux = vocabularioBOF.clone();
+    }
+
+
     cv::kmeans(aux, KVOCBOF, labels, cv::TermCriteria(CV_TERMCRIT_ITER|CV_TERMCRIT_EPS, 10000, 0.0001), 5, cv::KMEANS_PP_CENTERS, vocabularioBOF);
-    vocabularioBOF.convertTo(vocabularioBOF, CV_8U);
+    if(tipoDescritor == ORB || tipoDescritor == FREAK)
+        vocabularioBOF.convertTo(vocabularioBOF, CV_8U);
     Bof bof(QString(), &this->vocabularioBOF);
     bof.saveVoc();
 }

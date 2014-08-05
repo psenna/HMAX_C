@@ -26,12 +26,16 @@ void Bof::roda(){
 
     // Descrever esses pontos.
     cv::Mat descritores;
-#ifdef FREAK_ON
-    cv::FREAK descritor;
-#else
-    cv::ORB descritor;
-#endif
-    descritor.compute(img, pontosDeInteresse, descritores);
+    if(tipoDescritor == ORB){
+        cv::ORB descritor;
+        descritor.compute(img, pontosDeInteresse, descritores);
+    }else if(tipoDescritor == FREAK){
+        cv::FREAK descritor;
+        descritor.compute(img, pontosDeInteresse, descritores);
+    }else{
+        cv::SiftDescriptorExtractor descritor;
+        descritor.compute(img, pontosDeInteresse, descritores);
+    }
 
     // Classificar os pontos de interesse em uma palavra visual.
 
@@ -56,12 +60,12 @@ void Bof::roda(){
 
     // Normalizando o histograma
     for(int i = 0; i < vocabulario->rows; i++){
-        histograma.at<float>(0, i) /= (descritores.rows);
         histograma.at<float>(0, i) *= AJUSTEBOFNORMALIZA;
+        histograma.at<float>(0, i) /= (descritores.rows);
     }
 #ifdef BOFMAX
     for(int i = vocabulario->rows; i < histograma.cols; i++){
-        histograma.at<float>(0,i) = (float)exp(-1.0 * minimos.at<float>(i-vocabulario->rows, 0)/AJUSTEGAUSSIANABOF);
+        histograma.at<float>(0,i) = (float)exp(-1.0 * minimos.at<float>(i-vocabulario->rows, 0)/AJUSTEGAUSSIANABOF) * AJUSTELINEARBOF;
     }
 #ifdef BMAX
     histograma = cv::Mat(histograma, cv::Rect(vocabulario->rows, 0,vocabulario->rows, 1)).clone();
@@ -85,12 +89,16 @@ cv::Mat Bof::extraiCaract(){
 
     // Descrever esses pontos.
     cv::Mat descritores;
-#ifdef FREAK_ON
-    cv::FREAK descritor;
-#else
-    cv::ORB descritor;
-#endif
-    descritor.compute(img, pontosDeInteresse, descritores);
+    if(tipoDescritor == ORB){
+        cv::ORB descritor;
+        descritor.compute(img, pontosDeInteresse, descritores);
+    }else if(tipoDescritor == FREAK){
+        cv::FREAK descritor;
+        descritor.compute(img, pontosDeInteresse, descritores);
+    }else{
+        cv::SiftDescriptorExtractor descritor;
+        descritor.compute(img, pontosDeInteresse, descritores);
+    }
     return descritores;
 }
 

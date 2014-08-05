@@ -23,6 +23,7 @@
 #include <opencv2/opencv.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/highgui/highgui.hpp>
+#include <opencv2/nonfree/nonfree.hpp>
 
 #define PI 3.1415926536
 
@@ -46,13 +47,20 @@
 
 // *********************   PARAM. BOF ************************
 #define USABOF true
-#define KVOCBOF 500
-#define FREAK_ON
+#define KVOCBOF 400
+
+enum DESCTyoe{
+    ORB, FREAK, SIFT
+};
+
+#define tipoDescritor SIFT
 //#define GOODDETECTOR
 
-#define AJUSTEGAUSSIANABOF 5000000.0
-#define AJUSTEBOFNORMALIZA 1.0
+#define AJUSTEGAUSSIANABOF 1000000.0
+#define AJUSTELINEARBOF 1.0
+#define AJUSTEBOFNORMALIZA 500.0
 #define BOFMAX
+#define BMAX
 
 struct S1_T{
 #ifdef  CUDAON2
