@@ -47,16 +47,16 @@
 
 // *********************   PARAM. BOF ************************
 #define USABOF true
-#define KVOCBOF 400
+#define KVOCBOF 2000
 
 enum DESCTyoe{
-    ORB, FREAK, SIFT
+    ORB, FREAK, SIFT, SURF
 };
 
 #define tipoDescritor SIFT
 //#define GOODDETECTOR
 
-#define AJUSTEGAUSSIANABOF 1000000.0
+#define AJUSTEGAUSSIANABOF 10000000.0
 #define AJUSTELINEARBOF 1.0
 #define AJUSTEBOFNORMALIZA 500.0
 #define BOFMAX

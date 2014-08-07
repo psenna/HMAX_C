@@ -162,7 +162,7 @@ void ProcessaClasses::criaVocabularioBOF(){
     }
 
 
-    cv::kmeans(aux, KVOCBOF, labels, cv::TermCriteria(CV_TERMCRIT_ITER|CV_TERMCRIT_EPS, 10000, 0.0001), 5, cv::KMEANS_PP_CENTERS, vocabularioBOF);
+    cv::kmeans(aux, KVOCBOF, labels, cv::TermCriteria(CV_TERMCRIT_ITER|CV_TERMCRIT_EPS, 100000, 0.000001), 5, cv::KMEANS_PP_CENTERS, vocabularioBOF);
     if(tipoDescritor == ORB || tipoDescritor == FREAK)
         vocabularioBOF.convertTo(vocabularioBOF, CV_8U);
     Bof bof(QString(), &this->vocabularioBOF);

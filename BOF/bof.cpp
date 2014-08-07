@@ -32,6 +32,9 @@ void Bof::roda(){
     }else if(tipoDescritor == FREAK){
         cv::FREAK descritor;
         descritor.compute(img, pontosDeInteresse, descritores);
+    }else if(tipoDescritor == SURF){
+        cv::SURF descritor;
+        descritor.compute(img, pontosDeInteresse, descritores);
     }else{
         cv::SiftDescriptorExtractor descritor;
         descritor.compute(img, pontosDeInteresse, descritores);
@@ -94,6 +97,9 @@ cv::Mat Bof::extraiCaract(){
         descritor.compute(img, pontosDeInteresse, descritores);
     }else if(tipoDescritor == FREAK){
         cv::FREAK descritor;
+        descritor.compute(img, pontosDeInteresse, descritores);
+    }else if(tipoDescritor == SURF){
+        cv::SURF descritor;
         descritor.compute(img, pontosDeInteresse, descritores);
     }else{
         cv::SiftDescriptorExtractor descritor;
