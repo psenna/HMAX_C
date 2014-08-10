@@ -79,6 +79,9 @@ void Bof::roda(){
         for(int j = 1; j < this->pyrAuxMax.size(); j++){
             Contador = cv::min(Contador, this->pyrAuxMax[j]);
         }
+        for(int j = 0; j < Contador.rows; j++){
+            Contador.at<float>(j,0) *= (1<<i);
+        }
         if(i == NivelPyr){
             Hist2 = Contador;
         } else {
