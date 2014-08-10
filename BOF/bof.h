@@ -15,6 +15,9 @@ public:
     void saveVoc();
     cv::Mat loadVoc(QString nomeArq);
     cv::Mat getHistograma();
+    cv::Mat Pyr(int level);
+    std::vector<cv::Mat> pyrAux;
+    std::vector<cv::Mat> pyrAuxMax;
     int classe;
 
 private:
