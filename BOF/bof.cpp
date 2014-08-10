@@ -80,7 +80,7 @@ void Bof::roda(){
             Contador = cv::min(Contador, this->pyrAuxMax[j]);
         }
         for(int j = 0; j < Contador.rows; j++){
-            Contador.at<float>(j,0) *= (1<<i);
+            Contador.at<float>(j,0) *= (ATENUACAO<<i);
         }
         if(i == NivelPyr){
             Hist2 = Contador;
