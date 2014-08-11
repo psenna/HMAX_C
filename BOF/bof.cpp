@@ -31,21 +31,20 @@ void Bof::roda(){
         for(int j = 0; j < (1<<NivelPyr); j++){
             // Encontrar pontos de interesse.
             roi = img(cv::Rect(i*px, j*py, px, py));
-            detector.detect(roi, pontosDeInteresse);
-
+            detector.detect(roi.clone(), pontosDeInteresse);
             // Descrever esses pontos.
             if(tipoDescritor == ORB){
                 cv::ORB descritor;
-                descritor.compute(img, pontosDeInteresse, descritores);
+                descritor.compute(roi.clone(), pontosDeInteresse, descritores);
             }else if(tipoDescritor == FREAK){
                 cv::FREAK descritor;
-                descritor.compute(img, pontosDeInteresse, descritores);
+                descritor.compute(roi.clone(), pontosDeInteresse, descritores);
             }else if(tipoDescritor == SURF){
                 cv::SURF descritor;
-                descritor.compute(img, pontosDeInteresse, descritores);
+                descritor.compute(roi.clone(), pontosDeInteresse, descritores);
             }else{
                 cv::SiftDescriptorExtractor descritor;
-                descritor.compute(img, pontosDeInteresse, descritores);
+                descritor.compute(roi.clone(), pontosDeInteresse, descritores);
             }
 
             // Classificar os pontos de interesse em uma palavra visual.
@@ -75,13 +74,11 @@ void Bof::roda(){
     cv::Mat Contador;
     cv::Mat Hist2;
     for(int i = NivelPyr; i >= 0  && this->pyrAuxMax.size() > 0; i--){
-        Contador = this->pyrAuxMax[0];
-        for(int j = 1; j < this->pyrAuxMax.size(); j++){
+        Contador = this->pyrAuxMax[0].clone();
+        for(int j = 1; j < (int)this->pyrAuxMax.size(); j++){
             Contador = cv::min(Contador, this->pyrAuxMax[j]);
         }
-        for(int j = 0; j < Contador.rows; j++){
-            Contador.at<float>(j,0) *= (ATENUACAO<<i);
-        }
+
         if(i == NivelPyr){
             Hist2 = Contador;
         } else {
@@ -99,6 +96,7 @@ void Bof::roda(){
                 ref++;
             }
         }
+
         this->pyrAuxMax.resize(this->pyrAuxMax.size()/4);
     }
     histograma = cv::Mat().zeros(1,Hist2.rows,CV_32F);

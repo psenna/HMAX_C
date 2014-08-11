@@ -60,7 +60,7 @@ enum DESCTyoe{
 #define AJUSTELINEARBOF 1.0
 #define AJUSTEBOFNORMALIZA 500.0
 #define ATENUACAO 1
-#define NivelPyr 0
+#define NivelPyr 5
 #define BOFMAX
 #define BMAX
 
