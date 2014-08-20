@@ -47,7 +47,7 @@
 
 // *********************   PARAM. BOF ************************
 #define USABOF true
-#define KVOCBOF 400
+#define KVOCBOF 200
 
 enum DESCTyoe{
     ORB, FREAK, SIFT, SURF
@@ -56,11 +56,12 @@ enum DESCTyoe{
 #define tipoDescritor SIFT
 //#define GOODDETECTOR
 
-#define AJUSTEGAUSSIANABOF 1000000.0
+#define AJUSTEGAUSSIANABOF 50000.0
 #define AJUSTELINEARBOF 1.0
 #define AJUSTEBOFNORMALIZA 500.0
 #define ATENUACAO 1
-#define NivelPyr 5
+#define NivelPyr 0
+#define PASSOGRID 8
 #define BOFMAX
 #define BMAX
 

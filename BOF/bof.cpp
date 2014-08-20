@@ -23,7 +23,7 @@ void Bof::roda(){
     int px = img.cols/ (1<<NivelPyr);
     int py = img.rows/ (1<<NivelPyr);
     std::vector<cv::KeyPoint> pontosDeInteresse;
-    cv::DenseFeatureDetector detector;
+    cv::DenseFeatureDetector detector = cv::DenseFeatureDetector(16.0, 1, 0.1, PASSOGRID, 0, true, true);
     cv::Mat descritores;
     this->pyrAux.clear();
     this->pyrAuxMax.clear();
@@ -115,7 +115,7 @@ cv::Mat Bof::extraiCaract(){
 #ifdef GOODDETECTOR
     cv::GoodFeaturesToTrackDetector detector;
 #else
-    cv::DenseFeatureDetector detector;
+    cv::DenseFeatureDetector detector = cv::DenseFeatureDetector(16.0, 1, 0.1, PASSOGRID, 0, true, true);;
 #endif
     detector.detect(img, pontosDeInteresse);
 
